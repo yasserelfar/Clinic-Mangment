@@ -85,5 +85,59 @@ namespace Clinic_Mangment.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var visit = _context.Visits
+                .Include(v => v.Patient)
+                .Include(v => v.Doctor)
+                    .ThenInclude(d => d.User)
+                .Include(v => v.Specialty)
+                .FirstOrDefault(v => v.Id == id);
+
+            if (visit == null)
+            {
+                return NotFound();
+            }
+
+            return View(visit);
+        }
+        [HttpPost]
+        public IActionResult Complete(
+    int visitId,
+    string diagnosisText,
+    string? notes)
+        {
+            var visit = _context.Visits.Find(visitId);
+
+            if (visit == null)
+            {
+                return NotFound();
+            }
+
+            if (visit.Status != VisitStatus.InProgress)
+            {
+                return BadRequest("Visit is not in progress.");
+            }
+
+            var diagnosis = new Diagnosis
+            {
+                VisitId = visitId,
+                DiagnosisText = diagnosisText,
+                Notes = notes,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.Diagnoses.Add(diagnosis);
+
+            visit.Status = VisitStatus.Completed;
+            visit.CompletedAt = DateTime.UtcNow;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Dashboard", "Doctors");
+        }
+
     }
 }

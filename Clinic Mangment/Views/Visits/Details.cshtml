@@ -1,0 +1,52 @@
+﻿@model ClinicManagement.Models.Visit
+
+@{
+    ViewData["Title"] = "Visit Details";
+}
+
+<h1>Visit Details</h1>
+
+<h2>Patient Information</h2>
+
+<p>
+    <strong>Name:</strong>
+    @Model.Patient.Name
+</p>
+
+<p>
+    <strong>Phone:</strong>
+    @Model.Patient.Phone
+</p>
+
+<p>
+    <strong>Gender:</strong>
+    @Model.Patient.Gender
+</p>
+
+<p>
+    <strong>Date of Birth:</strong>
+    @Model.Patient.DateOfBirth.ToShortDateString()
+</p>
+
+<hr />
+
+<h2>Visit Information</h2>
+
+<p>
+    <strong>Specialty:</strong>
+    @Model.Specialty.Name
+</p>
+
+<p>
+    <strong>Status:</strong>
+    @Model.Status
+</p>
+
+<hr />
+
+<a asp-action="Complete"
+   asp-route-id="@Model.Id">
+
+    Start Examination
+
+</a>

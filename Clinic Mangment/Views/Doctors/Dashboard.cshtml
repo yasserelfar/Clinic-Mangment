@@ -1,0 +1,50 @@
+﻿@model List<ClinicManagement.Models.Visit>
+
+@{
+    ViewData["Title"] = "Doctor Dashboard";
+}
+
+<h1>Doctor Dashboard</h1>
+
+<h2>Pending Visits</h2>
+
+@if (!Model.Any())
+{
+    <p>No pending visits.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Phone</th>
+                <th>Specialty</th>
+                <th>Created At</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var visit in Model)
+            {
+                <tr>
+                    <td>@visit.Patient.Name</td>
+                    <td>@visit.Patient.Phone</td>
+                    <td>@visit.Specialty.Name</td>
+                    <td>@visit.CreatedAt</td>
+
+                    <td>
+                        <a asp-controller="Visits"
+                           asp-action="Details"
+                           asp-route-id="@visit.Id">
+
+                            Open Visit
+
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

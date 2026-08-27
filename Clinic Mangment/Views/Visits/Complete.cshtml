@@ -1,0 +1,52 @@
+﻿@model ClinicManagement.Models.Visit
+
+@{
+    ViewData["Title"] = "Examination";
+}
+
+<h1>Medical Examination</h1>
+
+<h2>Patient</h2>
+
+<p>
+    <strong>Name:</strong>
+    @Model.Patient.Name
+</p>
+
+<p>
+    <strong>Phone:</strong>
+    @Model.Patient.Phone
+</p>
+
+<hr />
+
+<form asp-action="Complete" method="post">
+
+    <input type="hidden"
+           name="visitId"
+           value="@Model.Id" />
+
+    <div>
+        <label>Diagnosis</label>
+
+        <textarea name="diagnosisText"
+                  rows="5"
+                  required></textarea>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Notes</label>
+
+        <textarea name="notes"
+                  rows="5"></textarea>
+    </div>
+
+    <br />
+
+    <button type="submit">
+        Confirm Examination
+    </button>
+
+</form>
