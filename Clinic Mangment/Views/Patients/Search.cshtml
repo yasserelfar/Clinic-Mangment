@@ -1,0 +1,51 @@
+﻿@model ClinicManagement.Models.Patient?
+
+@{
+    ViewData["Title"] = "Search Patient";
+}
+
+<h1>Search Patient</h1>
+
+<form asp-action="Search" method="get">
+
+    <label>Phone Number</label>
+
+    <input type="text"
+           name="phone"
+           placeholder="Enter phone number" />
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+@if (Model != null)
+{
+    <hr />
+
+    <h2>Patient Found</h2>
+
+    <p>Name: @Model.Name</p>
+    <p>Phone: @Model.Phone</p>
+    <p>Gender: @Model.Gender</p>
+
+    <a asp-controller="Visits"
+       asp-action="Create"
+       asp-route-patientId="@Model.Id">
+
+        Create Visit
+
+    </a>
+}
+else
+{
+    <p>Patient not found.</p>
+
+    <a asp-controller="Patients"
+       asp-action="Create">
+
+        Register New Patient
+
+    </a>
+}

@@ -1,0 +1,49 @@
+@model List<ClinicManagement.Models.Visit>
+
+@{
+    ViewData["Title"] = "Visits";
+}
+
+<h1>Visits</h1>
+<a asp-action="Create">Add Visit</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Patient</th>
+            <th>Specialty</th>
+            <th>Doctor</th>
+            <th>Status</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var visit in Model)
+        {
+            <tr>
+                <td>
+                    @visit.Patient.Name
+                </td>
+
+                <td>
+                    @visit.Specialty.Name
+                </td>
+
+                <td>
+                    @visit.Doctor.User.Name
+                </td>
+
+                <td>
+                    @visit.Status
+                </td>
+
+                <td>
+                    @visit.CreatedAt
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

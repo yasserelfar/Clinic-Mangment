@@ -39,6 +39,19 @@ namespace Clinic_Mangment.Controllers
 
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public IActionResult Search(string phone)
+        {
+            if (string.IsNullOrWhiteSpace(phone))
+            {
+                return View();
+            }
+
+            var patient = _context.Patients
+                .FirstOrDefault(p => p.Phone == phone);
+
+            return View(patient);
+        }
 
     }
 }
