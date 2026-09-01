@@ -1,0 +1,152 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h2>Admin Dashboard</h2>
+
+        <p class="text-muted">
+            System overview and management
+        </p>
+    </div>
+
+
+    <div class="row g-4">
+
+        <!-- Patients -->
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Total Patients
+                    </h6>
+
+                    <h2>
+                        @ViewBag.TotalPatients
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Doctors -->
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Total Doctors
+                    </h6>
+
+                    <h2>
+                        @ViewBag.TotalDoctors
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Visits -->
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Total Visits
+                    </h6>
+
+                    <h2>
+                        @ViewBag.TotalVisits
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Pending -->
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Pending Visits
+                    </h6>
+
+                    <h2>
+                        @ViewBag.PendingVisits
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="row mt-5">
+
+        <div class="col-md-4">
+
+            <a asp-controller="Admin"
+               asp-action="Doctors"
+               class="btn btn-primary w-100">
+
+                Manage Doctors
+
+            </a>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <a asp-controller="Admin"
+               asp-action="Reception"
+               class="btn btn-secondary w-100">
+
+                Manage Reception
+
+            </a>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <a asp-controller="Admin"
+               asp-action="Specialties"
+               class="btn btn-success w-100">
+
+                Manage Specialties
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

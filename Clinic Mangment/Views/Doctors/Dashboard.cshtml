@@ -4,57 +4,94 @@
     ViewData["Title"] = "Doctor Dashboard";
 }
 
-<div class="idh-dashboard">
+<div class="container mt-4">
 
-    <div class="idh-header">
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1>Doctor Dashboard</h1>
-            <div class="idh-subtitle">Integrated Diagnostics Holdings &middot; Clinic Management</div>
+            <h2>Doctor Dashboard</h2>
+            <p class="text-muted">
+                Pending visits waiting for examination
+            </p>
         </div>
-        <div class="idh-badge">@Model.Count Pending Visit@(Model.Count == 1 ? "" : "s")</div>
+
+        <div>
+            <strong>@User.Identity?.Name</strong>
+        </div>
     </div>
 
-    <div class="idh-section-title">Pending Visits</div>
 
     @if (!Model.Any())
     {
-        <div class="idh-empty">No pending visits.</div>
+        <div class="alert alert-info">
+            No pending visits at the moment.
+        </div>
     }
     else
     {
-        <div class="idh-card">
-            <table class="idh-table">
-                <thead>
-                    <tr>
-                        <th>Patient</th>
-                        <th>Phone</th>
-                        <th>Specialty</th>
-                        <th>Created At</th>
-                        <th></th>
-                    </tr>
-                </thead>
+        <div class="card shadow-sm">
 
-                <tbody>
-                    @foreach (var visit in Model)
-                    {
+            <div class="card-header">
+                <h5 class="mb-0">
+                    Pending Visits
+                </h5>
+            </div>
+
+            <div class="card-body p-0">
+
+                <table class="table table-hover mb-0">
+
+                    <thead>
                         <tr>
-                            <td class="idh-patient-name">@visit.Patient.Name</td>
-                            <td class="idh-muted">@visit.Patient.Phone</td>
-                            <td><span class="idh-specialty-pill">@visit.Specialty.Name</span></td>
-                            <td class="idh-muted">@visit.CreatedAt</td>
-
-                            <td>
-                                <a class="idh-open-btn"
-                                   asp-controller="Visits"
-                                   asp-action="Details"
-                                   asp-route-id="@visit.Id">
-                                    Open Visit
-                                </a>
-                            </td>
+                            <th>Visit #</th>
+                            <th>Patient</th>
+                            <th>Specialty</th>
+                            <th>Created At</th>
+                            <th>Action</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var visit in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    #@visit.Id
+                                </td>
+
+                                <td>
+                                    @visit.Patient.Name
+                                </td>
+
+                                <td>
+                                    @visit.Specialty.Name
+                                </td>
+
+                                <td>
+                                    @visit.CreatedAt.ToLocalTime()
+                                </td>
+
+                                <td>
+
+                                    <a asp-controller="Doctors"
+                                       asp-action="Complete"
+                                       asp-route-id="@visit.Id"
+                                       class="btn btn-primary btn-sm">
+                                        Start Examination
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
         </div>
     }
 
