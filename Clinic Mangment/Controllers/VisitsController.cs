@@ -68,7 +68,7 @@ namespace Clinic_Mangment.Controllers
 
             if (doctor.SpecialtyId != specialtyId)
             {
-                return BadRequest("Doctor does not belong to this specialty.");
+                return BadRequest("Doctor do    es not belong to this specialty.");
             }
 
             var visit = new Visit
@@ -104,7 +104,7 @@ namespace Clinic_Mangment.Controllers
             return View(visit);
         }
         [HttpPost]
-        public IActionResult Complete(
+        public IActionResult Complete( 
     int visitId,
     string diagnosisText,
     string? notes)

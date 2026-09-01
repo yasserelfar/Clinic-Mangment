@@ -1,8 +1,49 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="idh-dashboard">
+
+    <div class="idh-hero">
+        <div class="idh-hero-eyebrow">Clinic Management System</div>
+        <h1>Welcome back</h1>
+        <p>Manage patients, visits, and examinations in one place — built on Integrated Diagnostics Holdings' standard of quality care.</p>
+    </div>
+
+    <div class="idh-section-title">Quick Actions</div>
+
+    <div class="idh-action-grid">
+
+        <a class="idh-action-card" asp-controller="Patients" asp-action="Search">
+            <div class="idh-action-icon">&#128269;</div>
+            <div class="idh-action-title">Search Patient</div>
+            <div class="idh-action-desc">Find a patient by phone number and start a new visit.</div>
+        </a>
+
+        <a class="idh-action-card" asp-controller="Patients" asp-action="Create">
+            <div class="idh-action-icon">+</div>
+            <div class="idh-action-title">Register Patient</div>
+            <div class="idh-action-desc">Add a new patient's information to the system.</div>
+        </a>
+
+        <a class="idh-action-card" asp-controller="Patients" asp-action="Index">
+            <div class="idh-action-icon">&#128100;</div>
+            <div class="idh-action-title">All Patients</div>
+            <div class="idh-action-desc">Browse the full list of registered patients.</div>
+        </a>
+
+        <a class="idh-action-card" asp-controller="Visits" asp-action="Index">
+            <div class="idh-action-icon">&#128203;</div>
+            <div class="idh-action-title">All Visits</div>
+            <div class="idh-action-desc">View every visit and its current status.</div>
+        </a>
+
+        <a class="idh-action-card" asp-controller="Doctors" asp-action="Dashboard">
+            <div class="idh-action-icon">&#127973;</div>
+            <div class="idh-action-title">Doctor Dashboard</div>
+            <div class="idh-action-desc">Review pending visits assigned to doctors.</div>
+        </a>
+
+    </div>
+
 </div>

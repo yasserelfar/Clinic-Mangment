@@ -4,48 +4,72 @@
     ViewData["Title"] = "Search Patient";
 }
 
-<h1>Search Patient</h1>
+<div class="idh-form-page">
 
-<form asp-action="Search" method="get">
+    <div class="idh-header">
+        <div>
+            <h1>Search Patient</h1>
+            <div class="idh-subtitle">Integrated Diagnostics Holdings &middot; Clinic Management</div>
+        </div>
+    </div>
 
-    <label>Phone Number</label>
+    <div class="idh-form-card">
+        <form asp-action="Search" method="get">
 
-    <input type="text"
-           name="phone"
-           placeholder="Enter phone number" />
+            <div class="idh-field">
+                <label>Phone Number</label>
+                <input type="text"
+                       name="phone"
+                       placeholder="Enter phone number" />
+            </div>
 
-    <button type="submit">
-        Search
-    </button>
+            <button type="submit" class="idh-submit-btn">Search</button>
 
-</form>
+        </form>
+    </div>
 
-@if (Model != null)
-{
-    <hr />
+    @if (Model != null)
+    {
+        <div class="idh-result-card idh-result-found">
+            <div class="idh-result-title">Patient Found</div>
 
-    <h2>Patient Found</h2>
+            <div class="idh-result-grid">
+                <div>
+                    <span class="idh-result-label">Name</span>
+                    <span class="idh-result-value">@Model.Name</span>
+                </div>
+                <div>
+                    <span class="idh-result-label">Phone</span>
+                    <span class="idh-result-value">@Model.Phone</span>
+                </div>
+                <div>
+                    <span class="idh-result-label">Gender</span>
+                    <span class="idh-gender-pill @(Model.Gender == "Female" ? "female" : "male")">
+                        @Model.Gender
+                    </span>
+                </div>
+            </div>
 
-    <p>Name: @Model.Name</p>
-    <p>Phone: @Model.Phone</p>
-    <p>Gender: @Model.Gender</p>
+            <a class="idh-open-btn"
+               asp-controller="Visits"
+               asp-action="Create"
+               asp-route-patientId="@Model.Id">
+                Create Visit
+            </a>
+        </div>
+    }
+    else if (Context.Request.Query.ContainsKey("phone"))
+    {
+        <div class="idh-result-card idh-result-empty">
+            <div class="idh-result-title">Patient not found</div>
+            <p class="idh-muted">No patient matches this phone number.</p>
 
-    <a asp-controller="Visits"
-       asp-action="Create"
-       asp-route-patientId="@Model.Id">
+            <a class="idh-add-btn"
+               asp-controller="Patients"
+               asp-action="Create">
+                Register New Patient
+            </a>
+        </div>
+    }
 
-        Create Visit
-
-    </a>
-}
-else
-{
-    <p>Patient not found.</p>
-
-    <a asp-controller="Patients"
-       asp-action="Create">
-
-        Register New Patient
-
-    </a>
-}
+</div>

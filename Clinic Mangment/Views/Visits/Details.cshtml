@@ -2,51 +2,71 @@
 
 @{
     ViewData["Title"] = "Visit Details";
+
+    var statusClass = Model.Status.ToString().ToLower() switch
+    {
+        "pending" => "pending",
+        "inprogress" or "in progress" => "inprogress",
+        "completed" => "completed",
+        "cancelled" or "canceled" => "cancelled",
+        _ => "pending"
+    };
 }
 
-<h1>Visit Details</h1>
+<div class="idh-form-page">
 
-<h2>Patient Information</h2>
+    <div class="idh-header">
+        <div>
+            <h1>Visit Details</h1>
+            <div class="idh-subtitle">Integrated Diagnostics Holdings &middot; Clinic Management</div>
+        </div>
+        <span class="idh-status-pill @statusClass">@Model.Status</span>
+    </div>
 
-<p>
-    <strong>Name:</strong>
-    @Model.Patient.Name
-</p>
+    <div class="idh-result-card idh-result-found">
+        <div class="idh-result-title">Patient Information</div>
 
-<p>
-    <strong>Phone:</strong>
-    @Model.Patient.Phone
-</p>
+        <div class="idh-result-grid">
+            <div>
+                <span class="idh-result-label">Name</span>
+                <span class="idh-result-value">@Model.Patient.Name</span>
+            </div>
+            <div>
+                <span class="idh-result-label">Phone</span>
+                <span class="idh-result-value">@Model.Patient.Phone</span>
+            </div>
+            <div>
+                <span class="idh-result-label">Gender</span>
+                <span class="idh-gender-pill @(Model.Patient.Gender == "Female" ? "female" : "male")">
+                    @Model.Patient.Gender
+                </span>
+            </div>
+            <div>
+                <span class="idh-result-label">Date of Birth</span>
+                <span class="idh-result-value">@Model.Patient.DateOfBirth.ToShortDateString()</span>
+            </div>
+        </div>
+    </div>
 
-<p>
-    <strong>Gender:</strong>
-    @Model.Patient.Gender
-</p>
+    <div class="idh-result-card idh-result-found">
+        <div class="idh-result-title">Visit Information</div>
 
-<p>
-    <strong>Date of Birth:</strong>
-    @Model.Patient.DateOfBirth.ToShortDateString()
-</p>
+        <div class="idh-result-grid">
+            <div>
+                <span class="idh-result-label">Specialty</span>
+                <span class="idh-result-value">@Model.Specialty.Name</span>
+            </div>
+            <div>
+                <span class="idh-result-label">Status</span>
+                <span class="idh-status-pill @statusClass">@Model.Status</span>
+            </div>
+        </div>
 
-<hr />
+        <a class="idh-open-btn"
+           asp-action="Complete"
+           asp-route-id="@Model.Id">
+            Start Examination
+        </a>
+    </div>
 
-<h2>Visit Information</h2>
-
-<p>
-    <strong>Specialty:</strong>
-    @Model.Specialty.Name
-</p>
-
-<p>
-    <strong>Status:</strong>
-    @Model.Status
-</p>
-
-<hr />
-
-<a asp-action="Complete"
-   asp-route-id="@Model.Id">
-
-    Start Examination
-
-</a>
+</div>

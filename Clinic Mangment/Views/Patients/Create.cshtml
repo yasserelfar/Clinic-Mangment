@@ -2,38 +2,53 @@
     ViewData["Title"] = "Create Patient";
 }
 
-<h1>Create Patient</h1>
+<div class="idh-form-page">
 
-<form method="post">
-
-    <div>
-        <label>Name</label>
-        <input type="text" name="Name" />
+    <div class="idh-header">
+        <div>
+            <h1>Create Patient</h1>
+            <div class="idh-subtitle">Integrated Diagnostics Holdings &middot; Clinic Management</div>
+        </div>
     </div>
 
-    <div>
-        <label>Phone</label>
-        <input type="text" name="Phone" />
+    <div class="idh-form-card">
+        <form method="post">
+
+            <div class="idh-form-row">
+                <div class="idh-field">
+                    <label>Name</label>
+                    <input type="text" name="Name" placeholder="Full name" />
+                </div>
+
+                <div class="idh-field">
+                    <label>Phone</label>
+                    <input type="text" name="Phone" placeholder="e.g. 010xxxxxxxx" />
+                </div>
+            </div>
+
+            <div class="idh-form-row">
+                <div class="idh-field">
+                    <label>Date of Birth</label>
+                    <input type="date" name="DateOfBirth" />
+                </div>
+
+                <div class="idh-field">
+                    <label>Gender</label>
+                    <select name="Gender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="idh-field">
+                <label>Address</label>
+                <input type="text" name="Address" placeholder="Street, City" />
+            </div>
+
+            <button type="submit" class="idh-submit-btn">Create Patient</button>
+
+        </form>
     </div>
 
-    <div>
-        <label>Date of Birth</label>
-        <input type="date" name="DateOfBirth" />
-    </div>
-
-    <div>
-        <label>Gender</label>
-        <select name="Gender">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-    </div>
-
-    <div>
-        <label>Address</label>
-        <input type="text" name="Address" />
-    </div>
-
-    <button type="submit">Create Patient</button>
-
-</form>
+</div>

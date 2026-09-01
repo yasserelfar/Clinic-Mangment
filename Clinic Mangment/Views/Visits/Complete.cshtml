@@ -4,49 +4,55 @@
     ViewData["Title"] = "Examination";
 }
 
-<h1>Medical Examination</h1>
+<div class="idh-form-page">
 
-<h2>Patient</h2>
-
-<p>
-    <strong>Name:</strong>
-    @Model.Patient.Name
-</p>
-
-<p>
-    <strong>Phone:</strong>
-    @Model.Patient.Phone
-</p>
-
-<hr />
-
-<form asp-action="Complete" method="post">
-
-    <input type="hidden"
-           name="visitId"
-           value="@Model.Id" />
-
-    <div>
-        <label>Diagnosis</label>
-
-        <textarea name="diagnosisText"
-                  rows="5"
-                  required></textarea>
+    <div class="idh-header">
+        <div>
+            <h1>Medical Examination</h1>
+            <div class="idh-subtitle">Integrated Diagnostics Holdings &middot; Clinic Management</div>
+        </div>
     </div>
 
-    <br />
+    <div class="idh-result-card idh-result-found">
+        <div class="idh-result-title">Patient</div>
 
-    <div>
-        <label>Notes</label>
-
-        <textarea name="notes"
-                  rows="5"></textarea>
+        <div class="idh-result-grid">
+            <div>
+                <span class="idh-result-label">Name</span>
+                <span class="idh-result-value">@Model.Patient.Name</span>
+            </div>
+            <div>
+                <span class="idh-result-label">Phone</span>
+                <span class="idh-result-value">@Model.Patient.Phone</span>
+            </div>
+        </div>
     </div>
 
-    <br />
+    <div class="idh-form-card">
+        <form asp-action="Complete" method="post">
 
-    <button type="submit">
-        Confirm Examination
-    </button>
+            <input type="hidden"
+                   name="visitId"
+                   value="@Model.Id" />
 
-</form>
+            <div class="idh-field">
+                <label>Diagnosis</label>
+                <textarea name="diagnosisText"
+                          rows="5"
+                          placeholder="Enter diagnosis details"
+                          required></textarea>
+            </div>
+
+            <div class="idh-field">
+                <label>Notes</label>
+                <textarea name="notes"
+                          rows="5"
+                          placeholder="Additional notes (optional)"></textarea>
+            </div>
+
+            <button type="submit" class="idh-submit-btn">Confirm Examination</button>
+
+        </form>
+    </div>
+
+</div>

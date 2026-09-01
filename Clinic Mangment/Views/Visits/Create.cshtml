@@ -4,66 +4,73 @@
     ViewData["Title"] = "Create Visit";
 }
 
-<h1>Create Visit</h1>
+<div class="idh-form-page">
 
-<h3>Patient Information</h3>
-
-<p>
-    <strong>Name:</strong>
-    @Model.Name
-</p>
-
-<p>
-    <strong>Phone:</strong>
-    @Model.Phone
-</p>
-
-<hr />
-
-<form asp-action="Create" method="post">
-
-    <input type="hidden"
-           name="patientId"
-           value="@Model.Id" />
-
-    <div>
-        <label>Specialty</label>
-
-        <select id="specialtyId" name="specialtyId">
-            <option value="">Select Specialty</option>
-
-            @foreach (var specialty in ViewBag.Specialties)
-            {
-                <option value="@specialty.Id">
-                    @specialty.Name
-                </option>
-            }
-        </select>
+    <div class="idh-header">
+        <div>
+            <h1>Create Visit</h1>
+            <div class="idh-subtitle">Integrated Diagnostics Holdings &middot; Clinic Management</div>
+        </div>
     </div>
 
-    <br />
+    <div class="idh-result-card idh-result-found">
+        <div class="idh-result-title">Patient Information</div>
 
-    <div>
-        <label>Doctor</label>
-
-        <select id="doctorId"
-                name="doctorId"
-                disabled>
-
-            <option value="">
-                Select Doctor
-            </option>
-
-        </select>
+        <div class="idh-result-grid">
+            <div>
+                <span class="idh-result-label">Name</span>
+                <span class="idh-result-value">@Model.Name</span>
+            </div>
+            <div>
+                <span class="idh-result-label">Phone</span>
+                <span class="idh-result-value">@Model.Phone</span>
+            </div>
+        </div>
     </div>
 
-    <br />
+    <div class="idh-form-card">
+        <form asp-action="Create" method="post">
 
-    <button type="submit">
-        Create Visit
-    </button>
+            <input type="hidden"
+                   name="patientId"
+                   value="@Model.Id" />
 
-</form>
+            <div class="idh-field">
+                <label>Specialty</label>
+
+                <select id="specialtyId" name="specialtyId">
+                    <option value="">Select Specialty</option>
+
+                    @foreach (var specialty in ViewBag.Specialties)
+                    {
+                        <option value="@specialty.Id">
+                            @specialty.Name
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="idh-field">
+                <label>Doctor</label>
+
+                <select id="doctorId"
+                        name="doctorId"
+                        disabled>
+
+                    <option value="">
+                        Select Doctor
+                    </option>
+
+                </select>
+            </div>
+
+            <button type="submit" class="idh-submit-btn">Create Visit</button>
+
+        </form>
+    </div>
+
+</div>
+
 @section Scripts {
     <script>
 

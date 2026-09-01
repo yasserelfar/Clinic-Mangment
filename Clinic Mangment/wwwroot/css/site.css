@@ -1,31 +1,554 @@
-html {
-  font-size: 14px;
+/* ==========================================================================
+   IDH Theme — shared design tokens & components
+   Used across: Doctor Dashboard, Patients, Create Patient, and future views
+   ========================================================================== */
+
+:root {
+    --idh-navy: #0b2545;
+    --idh-navy-light: #13355e;
+    --idh-teal: #00a99d;
+    --idh-teal-light: #e6f7f6;
+    --idh-gray: #f4f6f8;
+    --idh-text: #2b2f36;
+    --idh-border: #e3e8ee;
 }
 
-@media (min-width: 768px) {
-  html {
+/* Page wrapper */
+.idh-dashboard,
+.idh-form-page {
+    font-family: 'Segoe UI', 'Poppins', Tahoma, sans-serif;
+    color: var(--idh-text);
+    padding: 24px;
+    background: var(--idh-gray);
+    border-radius: 16px;
+}
+
+/* Header */
+.idh-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, var(--idh-navy) 0%, var(--idh-navy-light) 100%);
+    color: #fff;
+    padding: 28px 32px;
+    border-radius: 14px;
+    margin-bottom: 24px;
+    box-shadow: 0 6px 18px rgba(11, 37, 69, 0.15);
+}
+
+.idh-header h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.idh-header .idh-subtitle {
+    margin-top: 4px;
+    font-size: 14px;
+    color: #b9c8db;
+}
+
+.idh-header .idh-badge {
+    background: var(--idh-teal);
+    color: #fff;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+/* Section title */
+.idh-section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 16px 4px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--idh-navy);
+}
+
+.idh-section-title::before {
+    content: "";
+    width: 6px;
+    height: 22px;
+    background: var(--idh-teal);
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Empty state */
+.idh-empty {
+    background: #fff;
+    border: 1px dashed var(--idh-border);
+    border-radius: 12px;
+    padding: 32px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 15px;
+}
+
+/* Card wrapper (tables, panels) */
+.idh-card {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(11, 37, 69, 0.06);
+    border: 1px solid var(--idh-border);
+}
+
+/* Table */
+table.idh-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+}
+
+table.idh-table thead th {
+    background: var(--idh-teal-light);
+    color: var(--idh-navy);
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 2px solid var(--idh-teal);
+}
+
+table.idh-table tbody td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--idh-border);
+    vertical-align: middle;
+}
+
+table.idh-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+table.idh-table tbody tr:hover {
+    background: #f8fbfb;
+}
+
+.idh-patient-name {
+    font-weight: 600;
+    color: var(--idh-navy);
+}
+
+.idh-muted {
+    color: #6b7280;
+    font-size: 13.5px;
+}
+
+/* Pills (specialty, gender, status, etc.) */
+.idh-specialty-pill {
+    display: inline-block;
+    background: var(--idh-teal-light);
+    color: var(--idh-teal);
+    font-weight: 600;
+    font-size: 12.5px;
+    padding: 5px 12px;
+    border-radius: 999px;
+}
+
+.idh-gender-pill {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 12.5px;
+    padding: 5px 12px;
+    border-radius: 999px;
+}
+
+.idh-gender-pill.male {
+    background: #e8f0fb;
+    color: var(--idh-navy);
+}
+
+.idh-gender-pill.female {
+    background: var(--idh-teal-light);
+    color: var(--idh-teal);
+}
+
+/* Buttons */
+.idh-open-btn {
+    display: inline-block;
+    background: var(--idh-navy);
+    color: #fff !important;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.idh-open-btn:hover {
+    background: var(--idh-teal);
+}
+
+.idh-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--idh-teal);
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+}
+
+.idh-add-btn:hover {
+    background: #00c2b3;
+}
+
+.idh-add-btn::before {
+    content: "+";
+    font-size: 17px;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.idh-submit-btn {
+    margin-top: 8px;
+    background: var(--idh-navy);
+    color: #fff;
+    font-size: 14.5px;
+    font-weight: 600;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.idh-submit-btn:hover {
+    background: var(--idh-teal);
+}
+
+/* Search result panel */
+.idh-result-card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid var(--idh-border);
+    box-shadow: 0 2px 10px rgba(11, 37, 69, 0.06);
+    padding: 28px 32px;
+    max-width: 640px;
+    margin-top: 20px;
+}
+
+.idh-result-card.idh-result-found {
+    border-left: 4px solid var(--idh-teal);
+}
+
+.idh-result-card.idh-result-empty {
+    border-left: 4px solid #d1d5db;
+}
+
+.idh-result-title {
     font-size: 16px;
-  }
+    font-weight: 700;
+    color: var(--idh-navy);
+    margin-bottom: 16px;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.idh-result-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 22px;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+@media (max-width: 560px) {
+    .idh-result-grid {
+        grid-template-columns: 1fr;
+    }
 }
+
+.idh-result-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #9aa4b2;
+    margin-bottom: 4px;
+}
+
+.idh-result-value {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--idh-text);
+}
+
+/* Form fields */
+.idh-form-card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid var(--idh-border);
+    box-shadow: 0 2px 10px rgba(11, 37, 69, 0.06);
+    padding: 32px;
+    max-width: 640px;
+}
+
+.idh-field {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.idh-field label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--idh-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.idh-field input,
+.idh-field select,
+.idh-field textarea {
+    font-family: inherit;
+    font-size: 14.5px;
+    color: var(--idh-text);
+    padding: 11px 14px;
+    border: 1px solid var(--idh-border);
+    border-radius: 8px;
+    background: #fbfcfd;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.idh-field input:focus,
+.idh-field select:focus,
+.idh-field textarea:focus {
+    border-color: var(--idh-teal);
+    box-shadow: 0 0 0 3px var(--idh-teal-light);
+    background: #fff;
+}
+
+.idh-field select:disabled {
+    background: #f4f6f8;
+    color: #9aa4b2;
+    cursor: not-allowed;
+}
+
+/* Status pill (visit status, etc.) */
+.idh-status-pill {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 12.5px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.idh-status-pill.pending {
+    background: #fff4e5;
+    color: #b45309;
+}
+
+.idh-status-pill.inprogress {
+    background: #e8f0fb;
+    color: var(--idh-navy);
+}
+
+.idh-status-pill.completed {
+    background: var(--idh-teal-light);
+    color: var(--idh-teal);
+}
+
+.idh-status-pill.cancelled {
+    background: #fdeaea;
+    color: #b91c1c;
+}
+
+.idh-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 560px) {
+    .idh-form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Home page hero */
+.idh-hero {
+    background: linear-gradient(135deg, var(--idh-navy) 0%, var(--idh-navy-light) 100%);
+    color: #fff;
+    padding: 48px 40px;
+    border-radius: 16px;
+    margin-bottom: 28px;
+    box-shadow: 0 8px 24px rgba(11, 37, 69, 0.18);
+}
+
+.idh-hero-eyebrow {
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--idh-teal);
+    margin-bottom: 10px;
+}
+
+.idh-hero h1 {
+    margin: 0 0 10px 0;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.idh-hero p {
+    margin: 0;
+    max-width: 560px;
+    font-size: 15px;
+    color: #c3d1e3;
+    line-height: 1.6;
+}
+
+/* Quick action cards */
+.idh-action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.idh-action-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid var(--idh-border);
+    border-radius: 14px;
+    padding: 24px;
+    text-decoration: none !important;
+    box-shadow: 0 2px 10px rgba(11, 37, 69, 0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.idh-action-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(11, 37, 69, 0.12);
+    border-color: var(--idh-teal);
+}
+
+.idh-action-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--idh-teal-light);
+    color: var(--idh-teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.idh-action-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--idh-navy);
+}
+
+.idh-action-desc {
+    font-size: 13.5px;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   Layout — navbar & footer
+   ========================================================================== */
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Segoe UI', 'Poppins', Tahoma, sans-serif;
+    background: var(--idh-gray);
+    margin: 0;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.idh-navbar {
+    background: var(--idh-navy) !important;
+    padding: 14px 0;
+    box-shadow: 0 2px 10px rgba(11, 37, 69, 0.15);
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.idh-navbar .navbar-brand {
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.idh-navbar .navbar-brand::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--idh-teal);
+    display: inline-block;
+}
+
+.idh-navbar .nav-link {
+    color: #c3d1e3 !important;
+    font-weight: 600;
+    font-size: 14.5px;
+    padding: 8px 16px !important;
+    border-radius: 8px;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.idh-navbar .nav-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff !important;
+}
+
+.idh-navbar .nav-link.active {
+    background: var(--idh-teal);
+    color: #fff !important;
+}
+
+.idh-navbar .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.idh-navbar .navbar-toggler-icon {
+    filter: invert(1);
+}
+
+.idh-footer {
+    background: #fff;
+    border-top: 1px solid var(--idh-border);
+    color: #6b7280;
+    font-size: 13.5px;
+    padding: 18px 0;
+    margin-top: 40px;
+}
+
+.idh-footer a {
+    color: var(--idh-teal);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.idh-footer a:hover {
+    text-decoration: underline;
+}
+
+.idh-main {
+    min-height: 70vh;
+    padding-top: 4px;
 }

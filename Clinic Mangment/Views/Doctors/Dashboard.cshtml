@@ -4,47 +4,58 @@
     ViewData["Title"] = "Doctor Dashboard";
 }
 
-<h1>Doctor Dashboard</h1>
+<div class="idh-dashboard">
 
-<h2>Pending Visits</h2>
+    <div class="idh-header">
+        <div>
+            <h1>Doctor Dashboard</h1>
+            <div class="idh-subtitle">Integrated Diagnostics Holdings &middot; Clinic Management</div>
+        </div>
+        <div class="idh-badge">@Model.Count Pending Visit@(Model.Count == 1 ? "" : "s")</div>
+    </div>
 
-@if (!Model.Any())
-{
-    <p>No pending visits.</p>
-}
-else
-{
-    <table>
-        <thead>
-            <tr>
-                <th>Patient</th>
-                <th>Phone</th>
-                <th>Specialty</th>
-                <th>Created At</th>
-                <th></th>
-            </tr>
-        </thead>
+    <div class="idh-section-title">Pending Visits</div>
 
-        <tbody>
-            @foreach (var visit in Model)
-            {
-                <tr>
-                    <td>@visit.Patient.Name</td>
-                    <td>@visit.Patient.Phone</td>
-                    <td>@visit.Specialty.Name</td>
-                    <td>@visit.CreatedAt</td>
+    @if (!Model.Any())
+    {
+        <div class="idh-empty">No pending visits.</div>
+    }
+    else
+    {
+        <div class="idh-card">
+            <table class="idh-table">
+                <thead>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Phone</th>
+                        <th>Specialty</th>
+                        <th>Created At</th>
+                        <th></th>
+                    </tr>
+                </thead>
 
-                    <td>
-                        <a asp-controller="Visits"
-                           asp-action="Details"
-                           asp-route-id="@visit.Id">
+                <tbody>
+                    @foreach (var visit in Model)
+                    {
+                        <tr>
+                            <td class="idh-patient-name">@visit.Patient.Name</td>
+                            <td class="idh-muted">@visit.Patient.Phone</td>
+                            <td><span class="idh-specialty-pill">@visit.Specialty.Name</span></td>
+                            <td class="idh-muted">@visit.CreatedAt</td>
 
-                            Open Visit
+                            <td>
+                                <a class="idh-open-btn"
+                                   asp-controller="Visits"
+                                   asp-action="Details"
+                                   asp-route-id="@visit.Id">
+                                    Open Visit
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+</div>

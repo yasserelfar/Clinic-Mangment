@@ -4,31 +4,52 @@
     ViewData["Title"] = "Patients";
 }
 
-<h1>Patients</h1>
+<div class="idh-dashboard">
 
-<a asp-action="Create">Add Patient</a>
+    <div class="idh-header">
+        <div>
+            <h1>Patients</h1>
+            <div class="idh-subtitle">Integrated Diagnostics Holdings &middot; Clinic Management</div>
+        </div>
+        <a class="idh-add-btn" asp-action="Create">Add Patient</a>
+    </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Date of Birth</th>
-            <th>Gender</th>
-        </tr>
-    </thead>
+    @if (!Model.Any())
+    {
+        <div class="idh-empty">No patients registered yet.</div>
+    }
+    else
+    {
+        <div class="idh-card">
+            <table class="idh-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Date of Birth</th>
+                        <th>Gender</th>
+                    </tr>
+                </thead>
 
-    <tbody>
+                <tbody>
 
-        @foreach (var patient in Model)
-        {
-            <tr>
-                <td>@patient.Name</td>
-                <td>@patient.Phone</td>
-                <td>@patient.DateOfBirth.ToShortDateString()</td>
-                <td>@patient.Gender</td>
-            </tr>
-        }
+                    @foreach (var patient in Model)
+                    {
+                        <tr>
+                            <td class="idh-patient-name">@patient.Name</td>
+                            <td class="idh-muted">@patient.Phone</td>
+                            <td class="idh-muted">@patient.DateOfBirth.ToShortDateString()</td>
+                            <td>
+                                <span class="idh-gender-pill @(patient.Gender == "Female" ? "female" : "male")">
+                                    @patient.Gender
+                                </span>
+                            </td>
+                        </tr>
+                    }
 
-    </tbody>
-</table>
+                </tbody>
+            </table>
+        </div>
+    }
+
+</div>
