@@ -1,0 +1,555 @@
+﻿
+@model ClinicManagement.ViewModels.PatientHistoryViewModel
+
+@{
+    ViewData["Title"] = "Patient Medical History";
+}
+
+<div class="idh-form-page">
+
+    
+    <!-- Header -->
+    
+
+    <div class="idh-header">
+
+        <div>
+
+            <h1>Patient Medical History</h1>
+
+            <div class="idh-subtitle">
+                Integrated Diagnostics Holdings &middot; Clinic Management
+            </div>
+
+        </div>
+
+        <a asp-controller="Patients"
+           asp-action="Index"
+           class="btn btn-secondary">
+
+            Back to Patients
+
+        </a>
+
+    </div>
+
+
+    
+    <!-- Patient Information -->
+    
+
+    <div class="idh-result-card idh-result-found mb-4">
+
+        <div class="idh-result-title">
+            Patient Information
+        </div>
+
+        <div class="idh-result-grid">
+
+            <div>
+
+                <span class="idh-result-label">
+                    Name
+                </span>
+
+                <span class="idh-result-value">
+                    @Model.Patient.Name
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <span class="idh-result-label">
+                    Phone
+                </span>
+
+                <span class="idh-result-value">
+                    @Model.Patient.Phone
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <span class="idh-result-label">
+                    Gender
+                </span>
+
+                <span class="idh-gender-pill @(Model.Patient.Gender == "Female" ? "female" : "male")">
+
+                    @Model.Patient.Gender
+
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <span class="idh-result-label">
+                    Date of Birth
+                </span>
+
+                <span class="idh-result-value">
+
+                    @Model.Patient.DateOfBirth.ToString("dd/MM/yyyy")
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    
+    <!-- Filters -->
+    
+
+    <div class="idh-result-card mb-4">
+
+        <div class="idh-result-title">
+            Filter Medical History
+        </div>
+
+
+        <form asp-controller="Patients"
+              asp-action="History"
+              method="get">
+
+            <!-- Patient ID -->
+
+            <input type="hidden"
+                   name="id"
+                   value="@Model.Patient.Id" />
+
+
+            <div class="row g-3">
+
+
+                <!-- Doctor -->
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Doctor
+                    </label>
+
+                    <select name="doctorId"
+                            class="form-select">
+
+                        <option value="">
+                            All Doctors
+                        </option>
+
+                        @foreach (var doctor in Model.Doctors)
+                        {
+                            <option value="@doctor.Id"
+                                    selected="@(Model.DoctorId == doctor.Id)">
+
+                                @doctor.User.Name
+
+                            </option>
+                        }
+
+                    </select>
+
+                </div>
+
+
+                <!-- Specialty -->
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Specialty
+                    </label>
+
+                    <select name="specialtyId"
+                            class="form-select">
+
+                        <option value="">
+                            All Specialties
+                        </option>
+
+                        @foreach (var specialty in Model.Specialties)
+                        {
+                            <option value="@specialty.Id"
+                                    selected="@(Model.SpecialtyId == specialty.Id)">
+
+                                @specialty.Name
+
+                            </option>
+                        }
+
+                    </select>
+
+                </div>
+
+
+                <!-- Status -->
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Status
+                    </label>
+
+                    <select name="status"
+                            class="form-select">
+
+                        <option value="">
+                            All Statuses
+                        </option>
+
+                        @foreach (var status in Enum.GetValues<ClinicManagement.Enums.VisitStatus>())
+                        {
+                            <option value="@status"
+                                    selected="@(Model.Status == status)">
+
+                                @status
+
+                            </option>
+                        }
+
+                    </select>
+
+                </div>
+
+
+                <!-- From Date -->
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        From Date
+                    </label>
+
+                    <input type="date"
+                           name="fromDate"
+                           class="form-control"
+                           value="@(Model.FromDate?.ToString("yyyy-MM-dd"))" />
+
+                </div>
+
+
+                <!-- To Date -->
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        To Date
+                    </label>
+
+                    <input type="date"
+                           name="toDate"
+                           class="form-control"
+                           value="@(Model.ToDate?.ToString("yyyy-MM-dd"))" />
+
+                </div>
+
+
+                <!-- Buttons -->
+
+                <div class="col-md-4 d-flex align-items-end gap-2">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        Apply Filters
+
+                    </button>
+
+
+                    <a asp-controller="Patients"
+                       asp-action="History"
+                       asp-route-id="@Model.Patient.Id"
+                       class="btn btn-outline-secondary">
+
+                        Clear
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    
+    <!-- Timeline -->
+    
+
+    <div class="idh-result-card">
+
+        <div class="idh-result-title">
+
+            Medical Timeline
+
+            <span class="text-muted">
+                (@Model.Visits.Count visits)
+            </span>
+
+        </div>
+
+
+        @if (Model.Visits.Any())
+        {
+
+            <div class="timeline mt-4">
+
+                @foreach (var visit in Model.Visits)
+                {
+
+                    var statusClass = visit.Status
+                        .ToString()
+                        .ToLower();
+
+                    <div class="timeline-item">
+
+
+                        <!-- Timeline Dot -->
+
+                        <div class="timeline-dot"></div>
+
+
+                        <!-- Timeline Content -->
+
+                        <div class="timeline-content">
+
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+
+                                <div>
+
+                                    <h5 class="mb-1">
+
+                                        Visit #@visit.Id
+
+                                    </h5>
+
+                                    <div class="text-muted">
+
+                                        @(visit.CreatedAt
+                                            .ToLocalTime()
+                                            .ToString("dd/MM/yyyy HH:mm"))
+
+                                    </div>
+
+                                </div>
+
+
+                                <span class="idh-status-pill @statusClass">
+
+                                    @visit.Status
+
+                                </span>
+
+                            </div>
+
+
+                            <!-- Visit Details -->
+
+                            <div class="row mt-3">
+
+
+                                <!-- Doctor -->
+
+                                <div class="col-md-4 mb-3">
+
+                                    <span class="idh-result-label">
+                                        Doctor
+                                    </span>
+
+                                    <span class="idh-result-value">
+
+                                        @visit.Doctor.User.Name
+
+                                    </span>
+
+                                </div>
+
+
+                                <!-- Specialty -->
+
+                                <div class="col-md-4 mb-3">
+
+                                    <span class="idh-result-label">
+                                        Specialty
+                                    </span>
+
+                                    <span class="idh-result-value">
+
+                                        @visit.Specialty.Name
+
+                                    </span>
+
+                                </div>
+
+
+                                <!-- Created -->
+
+                                <div class="col-md-4 mb-3">
+
+                                    <span class="idh-result-label">
+                                        Created
+                                    </span>
+
+                                    <span class="idh-result-value">
+
+                                        @(visit.CreatedAt
+                                            .ToLocalTime()
+                                            .ToString("dd/MM/yyyy HH:mm"))
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Diagnosis -->
+                            @if (visit.Diagnosis != null)
+                            {
+
+                                <div class="mt-2 p-3 border rounded">
+
+                                    <div class="fw-bold mb-2">
+                                        Diagnosis
+                                    </div>
+
+                                    <div>
+                                        @visit.Diagnosis.DiagnosisText
+                                    </div>
+
+
+                                    @if (!string.IsNullOrWhiteSpace(
+                                        visit.Diagnosis.Notes))
+                                    {
+                                        <div class="mt-2">
+
+                                            <span class="text-muted">
+                                                Notes:
+                                            </span>
+
+                                            @visit.Diagnosis.Notes
+
+                                        </div>
+                                    }
+
+                                </div>
+
+                            }
+
+
+                            <!-- Open Visit -->
+
+                            <div class="mt-3">
+
+                                <a asp-controller="Visits"
+                                   asp-action="Details"
+                                   asp-route-id="@visit.Id"
+                                   class="btn btn-sm btn-outline-primary">
+
+                                    View Visit Details
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+
+        }
+        else
+        {
+
+            <!-- No Visits -->
+
+            <div class="text-center py-5">
+
+                <h5>
+                    No Visits Found
+                </h5>
+
+                <p class="text-muted">
+                    No visits match the selected filters.
+                </p>
+
+                <a asp-controller="Patients"
+                   asp-action="History"
+                   asp-route-id="@Model.Patient.Id"
+                   class="btn btn-outline-secondary">
+
+                    Clear Filters
+
+                </a>
+
+            </div>
+
+        }
+
+    </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- Timeline CSS -->
+<!-- ========================================================= -->
+
+<style>
+
+    .timeline {
+        position: relative;
+        margin-left: 20px;
+        padding-left: 35px;
+    }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #dee2e6;
+        }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 30px;
+    }
+
+    .timeline-dot {
+        position: absolute;
+        left: -35px;
+        top: 5px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #0d6efd;
+        border: 3px solid white;
+        box-shadow: 0 0 0 2px #0d6efd;
+    }
+
+    .timeline-content {
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+</style>

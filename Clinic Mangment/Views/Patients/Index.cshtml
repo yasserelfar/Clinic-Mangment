@@ -28,6 +28,7 @@
                         <th>Phone</th>
                         <th>Date of Birth</th>
                         <th>Gender</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
 
@@ -43,6 +44,16 @@
                                 <span class="idh-gender-pill @(patient.Gender == "Female" ? "female" : "male")">
                                     @patient.Gender
                                 </span>
+                            </td>
+                            <td>
+                                <a asp-controller="Patients"
+                                   asp-action="History"
+                                   asp-route-id="@patient.Id"
+                                   class="btn btn-primary">
+
+                                    Medical History
+
+                                </a>
                             </td>
                         </tr>
                     }

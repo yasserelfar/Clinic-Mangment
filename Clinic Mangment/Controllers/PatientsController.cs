@@ -1,6 +1,9 @@
 ﻿using ClinicManagement.Data;
+using ClinicManagement.Enums;
 using ClinicManagement.Models;
+using ClinicManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Clinic_Mangment.Controllers
 {
@@ -52,6 +55,142 @@ namespace Clinic_Mangment.Controllers
 
             return View(patient);
         }
+       
+    [HttpGet]
+    public IActionResult History(
+        int id,
+        int? doctorId,
+        int? specialtyId,
+        VisitStatus? status,
+        DateTime? fromDate,
+        DateTime? toDate)
+        {
+            // ==========================================
+            // Get Patient
+            // ==========================================
+
+            var patient = _context.Patients
+                .FirstOrDefault(p => p.Id == id);
+
+            if (patient == null)
+            {
+                return NotFound();
+            }
+
+
+            // ==========================================
+            // Get Patient Visits
+            // ==========================================
+
+            var query = _context.Visits
+                .Include(v => v.Doctor)
+                    .ThenInclude(d => d.User)
+                .Include(v => v.Specialty)
+                .Include(v => v.Diagnosis)
+                .Where(v => v.PatientId == id)
+                .AsQueryable();
+
+
+            // ==========================================
+            // Doctor Filter
+            // ==========================================
+
+            if (doctorId.HasValue)
+            {
+                query = query.Where(v =>
+                    v.DoctorId == doctorId.Value);
+            }
+
+
+            // ==========================================
+            // Specialty Filter
+            // ==========================================
+
+            if (specialtyId.HasValue)
+            {
+                query = query.Where(v =>
+                    v.SpecialtyId == specialtyId.Value);
+            }
+
+
+            // ==========================================
+            // Status Filter
+            // ==========================================
+
+            if (status.HasValue)
+            {
+                query = query.Where(v =>
+                    v.Status == status.Value);
+            }
+
+
+            // ==========================================
+            // From Date Filter
+            // ==========================================
+
+            if (fromDate.HasValue)
+            {
+                query = query.Where(v =>
+                    v.CreatedAt >= fromDate.Value);
+            }
+
+
+            // ==========================================
+            // To Date Filter
+            // ==========================================
+
+            if (toDate.HasValue)
+            {
+                var endDate = toDate.Value.Date.AddDays(1);
+
+                query = query.Where(v =>
+                    v.CreatedAt < endDate);
+            }
+
+
+            // ==========================================
+            // Execute Query
+            // ==========================================
+
+            var visits = query
+                .OrderByDescending(v => v.CreatedAt)
+                .ToList();
+
+
+            // ==========================================
+            // Create ViewModel
+            // ==========================================
+
+            var model = new PatientHistoryViewModel
+            {
+                Patient = patient,
+
+                Visits = visits,
+
+                DoctorId = doctorId,
+
+                SpecialtyId = specialtyId,
+
+                Status = status,
+
+                FromDate = fromDate,
+
+                ToDate = toDate,
+
+                Doctors = _context.Doctors
+                    .Include(d => d.User)
+                    .OrderBy(d => d.User.Name)
+                    .ToList(),
+
+                Specialties = _context.Specialties
+                    .OrderBy(s => s.Name)
+                    .ToList()
+            };
+
+
+            return View(model);
+        }
+
 
     }
 }
