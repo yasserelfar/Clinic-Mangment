@@ -1,4 +1,5 @@
-﻿@model ClinicManagement.Models.Visit
+﻿
+@model ClinicManagement.Models.Visit
 
 @{
     ViewData["Title"] = "Visit Details";
@@ -15,58 +16,301 @@
 
 <div class="idh-form-page">
 
+    <!-- ===================================================== -->
+    <!-- Header -->
+    <!-- ===================================================== -->
+
     <div class="idh-header">
+
         <div>
+
             <h1>Visit Details</h1>
-            <div class="idh-subtitle">Integrated Diagnostics Holdings &middot; Clinic Management</div>
+
+            <div class="idh-subtitle">
+                Integrated Diagnostics Holdings &middot; Clinic Management
+            </div>
+
         </div>
-        <span class="idh-status-pill @statusClass">@Model.Status</span>
+
+        <span class="idh-status-pill @statusClass">
+            @Model.Status
+        </span>
+
     </div>
 
+
+    <!-- ===================================================== -->
+    <!-- Patient Information -->
+    <!-- ===================================================== -->
+
     <div class="idh-result-card idh-result-found">
-        <div class="idh-result-title">Patient Information</div>
+
+        <div class="idh-result-title">
+            Patient Information
+        </div>
 
         <div class="idh-result-grid">
+
             <div>
-                <span class="idh-result-label">Name</span>
-                <span class="idh-result-value">@Model.Patient.Name</span>
+
+                <span class="idh-result-label">
+                    Name
+                </span>
+
+                <span class="idh-result-value">
+                    @Model.Patient.Name
+                </span>
+
             </div>
+
+
             <div>
-                <span class="idh-result-label">Phone</span>
-                <span class="idh-result-value">@Model.Patient.Phone</span>
+
+                <span class="idh-result-label">
+                    Phone
+                </span>
+
+                <span class="idh-result-value">
+                    @Model.Patient.Phone
+                </span>
+
             </div>
+
+
             <div>
-                <span class="idh-result-label">Gender</span>
+
+                <span class="idh-result-label">
+                    Gender
+                </span>
+
                 <span class="idh-gender-pill @(Model.Patient.Gender == "Female" ? "female" : "male")">
                     @Model.Patient.Gender
                 </span>
+
             </div>
+
+
             <div>
-                <span class="idh-result-label">Date of Birth</span>
-                <span class="idh-result-value">@Model.Patient.DateOfBirth.ToShortDateString()</span>
+
+                <span class="idh-result-label">
+                    Date of Birth
+                </span>
+
+                <span class="idh-result-value">
+                    @Model.Patient.DateOfBirth.ToString("dd/MM/yyyy")
+                </span>
+
             </div>
+
         </div>
+
     </div>
 
-    <div class="idh-result-card idh-result-found">
-        <div class="idh-result-title">Visit Information</div>
 
-        <div class="idh-result-grid">
-            <div>
-                <span class="idh-result-label">Specialty</span>
-                <span class="idh-result-value">@Model.Specialty.Name</span>
-            </div>
-            <div>
-                <span class="idh-result-label">Status</span>
-                <span class="idh-status-pill @statusClass">@Model.Status</span>
-            </div>
+    <!-- ===================================================== -->
+    <!-- Visit Information -->
+    <!-- ===================================================== -->
+
+    <div class="idh-result-card idh-result-found">
+
+        <div class="idh-result-title">
+            Visit Information
         </div>
 
-        <a class="idh-open-btn"
-           asp-action="Complete"
-           asp-route-id="@Model.Id">
-            Start Examination
+        <div class="idh-result-grid">
+
+            <!-- Specialty -->
+
+            <div>
+
+                <span class="idh-result-label">
+                    Specialty
+                </span>
+
+                <span class="idh-result-value">
+                    @Model.Specialty.Name
+                </span>
+
+            </div>
+
+
+            <!-- Doctor -->
+
+            <div>
+
+                <span class="idh-result-label">
+                    Doctor
+                </span>
+
+                <span class="idh-result-value">
+                    @Model.Doctor.User.Name
+                </span>
+
+            </div>
+
+
+            <!-- Status -->
+
+            <div>
+
+                <span class="idh-result-label">
+                    Status
+                </span>
+
+                <span class="idh-status-pill @statusClass">
+                    @Model.Status
+                </span>
+
+            </div>
+
+
+            <!-- Created At -->
+
+            <div>
+
+                <span class="idh-result-label">
+                    Created At
+                </span>
+
+                <span class="idh-result-value">
+                    @(Model.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm"))
+                </span>
+
+            </div>
+
+
+            <!-- Started At -->
+
+            <div>
+
+                <span class="idh-result-label">
+                    Started At
+                </span>
+
+                <span class="idh-result-value">
+
+                    @if (Model.StartedAt.HasValue)
+                    {
+                        @Model.StartedAt.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+                    }
+                    else
+                    {
+                        <span class="text-muted">
+                            Not started
+                        </span>
+                    }
+
+                </span>
+
+            </div>
+
+
+            <!-- Completed At -->
+
+            <div>
+
+                <span class="idh-result-label">
+                    Completed At
+                </span>
+
+                <span class="idh-result-value">
+
+                    @if (Model.CompletedAt.HasValue)
+                    {
+                        @Model.CompletedAt.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+                    }
+                    else
+                    {
+                        <span class="text-muted">
+                            Not completed
+                        </span>
+                    }
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- Diagnosis -->
+    <!-- ===================================================== -->
+    @if (Model.Diagnosis != null)
+    {
+        <div class="idh-result-card idh-result-found">
+
+            <div class="idh-result-title">
+                Diagnosis
+            </div>
+
+            <div class="idh-result-grid">
+
+                <div>
+
+                    <span class="idh-result-label">
+                        Diagnosis
+                    </span>
+
+                    <span class="idh-result-value">
+                        @Model.Diagnosis.DiagnosisText
+                    </span>
+
+                </div>
+
+
+                @if (!string.IsNullOrWhiteSpace(Model.Diagnosis.Notes))
+                {
+                    <div>
+
+                        <span class="idh-result-label">
+                            Notes
+                        </span>
+
+                        <span class="idh-result-value">
+                            @Model.Diagnosis.Notes
+                        </span>
+
+                    </div>
+                }
+
+
+                <div>
+
+                    <span class="idh-result-label">
+                        Diagnosis Created At
+                    </span>
+
+                    <span class="idh-result-value">
+                        @(Model.Diagnosis.CreatedAt
+                            .ToLocalTime()
+                            .ToString("dd/MM/yyyy HH:mm"))
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+
+    <!-- ===================================================== -->
+    <!-- Actions -->
+    <!-- ===================================================== -->
+
+    <div class="mt-4">
+
+        <a asp-controller="Visits"
+           asp-action="Index"
+           class="btn btn-secondary">
+
+            Back to Visits
+
         </a>
+
     </div>
 
 </div>

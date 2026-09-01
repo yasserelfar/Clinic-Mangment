@@ -593,6 +593,10 @@ body {
     margin-bottom: 18px;
 }
 
+    .idh-validation-summary.validation-summary-valid {
+        display: none;
+    }
+
     .idh-validation-summary:empty {
         display: none;
     }
@@ -655,4 +659,417 @@ body {
 .idh-login-card .idh-submit-btn {
     width: 100%;
     text-align: center;
+}
+
+/* ==========================================================================
+   Admin list pages — badges, small action buttons, empty states
+   ========================================================================== */
+
+.idh-header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.idh-btn-primary {
+    display: inline-block;
+    background: var(--idh-teal);
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+}
+
+    .idh-btn-primary:hover {
+        background: #00c2b3;
+    }
+
+/* Small row-action buttons */
+.idh-btn-sm {
+    display: inline-block;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 13px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    text-decoration: none !important;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+    .idh-btn-sm.outline-primary {
+        background: #fff;
+        color: var(--idh-navy);
+        border-color: var(--idh-border);
+    }
+
+        .idh-btn-sm.outline-primary:hover {
+            background: var(--idh-gray);
+        }
+
+    .idh-btn-sm.outline-danger {
+        background: #fff;
+        color: #b91c1c;
+        border-color: #f3b4b4;
+    }
+
+        .idh-btn-sm.outline-danger:hover {
+            background: #fdeaea;
+        }
+
+    .idh-btn-sm.danger {
+        background: #dc2626;
+        color: #fff !important;
+    }
+
+        .idh-btn-sm.danger:hover {
+            background: #b91c1c;
+        }
+
+    .idh-btn-sm.outline-success {
+        background: #fff;
+        color: #0e8a5f;
+        border-color: #bfe8d9;
+    }
+
+        .idh-btn-sm.outline-success:hover {
+            background: #e9f8f1;
+        }
+
+    .idh-btn-sm.success {
+        background: #16a34a;
+        color: #fff !important;
+    }
+
+        .idh-btn-sm.success:hover {
+            background: #15803d;
+        }
+
+    .idh-btn-sm.warning {
+        background: #f59e0b;
+        color: #fff !important;
+    }
+
+        .idh-btn-sm.warning:hover {
+            background: #d97706;
+        }
+
+.idh-row-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.idh-cell-right {
+    text-align: right;
+}
+
+/* Role / status / count badges */
+.idh-role-badge {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 4px 11px;
+    border-radius: 999px;
+}
+
+    .idh-role-badge.admin {
+        background: var(--idh-navy);
+        color: #fff;
+    }
+
+    .idh-role-badge.reception {
+        background: #e8f0fb;
+        color: var(--idh-navy);
+    }
+
+    .idh-role-badge.doctor {
+        background: var(--idh-teal-light);
+        color: var(--idh-teal);
+    }
+
+    .idh-role-badge.other {
+        background: #f1f2f4;
+        color: #6b7280;
+    }
+
+.idh-active-badge {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 4px 11px;
+    border-radius: 999px;
+}
+
+    .idh-active-badge.active {
+        background: var(--idh-teal-light);
+        color: var(--idh-teal);
+    }
+
+    .idh-active-badge.inactive {
+        background: #fdeaea;
+        color: #b91c1c;
+    }
+
+.idh-count-badge {
+    display: inline-block;
+    background: var(--idh-gray);
+    color: var(--idh-text);
+    font-weight: 600;
+    font-size: 12.5px;
+    padding: 4px 11px;
+    border-radius: 999px;
+}
+
+/* Alert banner (TempData errors) */
+.idh-alert-error {
+    color: #b91c1c;
+    background: #fdeaea;
+    border: 1px solid #f6c7c7;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Empty state with action button */
+.idh-empty-action {
+    background: #fff;
+    border: 1px dashed var(--idh-border);
+    border-radius: 12px;
+    padding: 48px 32px;
+    text-align: center;
+}
+
+    .idh-empty-action h3 {
+        margin: 0 0 6px 0;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--idh-navy);
+    }
+
+    .idh-empty-action p {
+        margin: 0 0 18px 0;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+/* ==========================================================================
+   Admin list pages — alerts, badges, row actions, empty states
+   ========================================================================== */
+
+.idh-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.idh-alert-error {
+    background: #fdeaea;
+    color: #b91c1c;
+    border: 1px solid #f6c7c7;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.idh-alert-info {
+    background: var(--idh-teal-light);
+    color: var(--idh-navy);
+    border: 1px solid #b9e8e4;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 14px;
+}
+
+/* Generic badge (role / status) */
+.idh-badge {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 4px 11px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+    .idh-badge.dark {
+        background: var(--idh-navy);
+        color: #fff;
+    }
+
+    .idh-badge.primary {
+        background: #e8f0fb;
+        color: var(--idh-navy);
+    }
+
+    .idh-badge.success {
+        background: var(--idh-teal-light);
+        color: var(--idh-teal);
+    }
+
+    .idh-badge.danger {
+        background: #fdeaea;
+        color: #b91c1c;
+    }
+
+    .idh-badge.light {
+        background: var(--idh-gray);
+        color: var(--idh-text);
+    }
+
+/* Row action buttons */
+.idh-row-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.idh-btn-xs {
+    display: inline-block;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 13px;
+    border-radius: 7px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+    .idh-btn-xs.edit {
+        background: #fff;
+        color: var(--idh-navy);
+        border-color: var(--idh-border);
+    }
+
+        .idh-btn-xs.edit:hover {
+            background: var(--idh-gray);
+        }
+
+    .idh-btn-xs.delete {
+        background: #fdeaea;
+        color: #b91c1c;
+    }
+
+        .idh-btn-xs.delete:hover {
+            background: #b91c1c;
+            color: #fff;
+        }
+
+    .idh-btn-xs.activate {
+        background: var(--idh-teal-light);
+        color: var(--idh-teal);
+    }
+
+        .idh-btn-xs.activate:hover {
+            background: var(--idh-teal);
+            color: #fff;
+        }
+
+    .idh-btn-xs.deactivate {
+        background: #fff4e5;
+        color: #b45309;
+    }
+
+        .idh-btn-xs.deactivate:hover {
+            background: #b45309;
+            color: #fff;
+        }
+
+/* Table cell alignment helper */
+.idh-table th.text-end,
+.idh-table td.text-end {
+    text-align: right;
+}
+
+/* Empty state with CTA */
+.idh-empty-title {
+    font-weight: 700;
+    color: var(--idh-navy);
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.idh-empty-desc {
+    margin-bottom: 18px;
+}
+
+/* ==========================================================================
+   Stat cards & recent-activity panel (dashboards)
+   ========================================================================== */
+
+.idh-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.idh-stat-card {
+    background: #fff;
+    border: 1px solid var(--idh-border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 10px rgba(11, 37, 69, 0.06);
+    border-left: 4px solid var(--idh-teal);
+}
+
+    .idh-stat-card.pending {
+        border-left-color: #f59e0b;
+    }
+
+    .idh-stat-card.completed {
+        border-left-color: var(--idh-teal);
+    }
+
+.idh-stat-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.idh-stat-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--idh-navy);
+}
+
+.idh-panel {
+    background: #fff;
+    border: 1px solid var(--idh-border);
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(11, 37, 69, 0.06);
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.idh-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+    .idh-panel-header h2 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--idh-navy);
+    }
+
+.idh-quick-links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }

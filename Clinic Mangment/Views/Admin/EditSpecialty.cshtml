@@ -4,93 +4,51 @@
     ViewData["Title"] = "Edit Specialty";
 }
 
-<div class="container mt-4">
+<div class="idh-form-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
+    <div class="idh-header">
         <div>
-
-            <h2>Edit Specialty</h2>
-
-            <p class="text-muted">
-                Update specialty information
-            </p>
-
+            <h1>Edit Specialty</h1>
+            <div class="idh-subtitle">Update specialty information</div>
         </div>
-
         <a asp-controller="Admin"
            asp-action="Specialties"
-           class="btn btn-secondary">
-
+           class="idh-btn-secondary">
             Back
-
         </a>
-
     </div>
 
+    <div class="idh-form-card">
+        <form asp-controller="Admin"
+              asp-action="EditSpecialty"
+              method="post">
 
-    <div class="card shadow-sm">
+            @Html.AntiForgeryToken()
 
-        <div class="card-body">
+            <input type="hidden" name="id" value="@Model.Id" />
 
-            <form asp-controller="Admin"
-                  asp-action="EditSpecialty"
-                  method="post">
+            <div asp-validation-summary="All" class="idh-validation-summary"></div>
 
-                @Html.AntiForgeryToken()
+            <div class="idh-field">
+                <label for="name">Specialty Name</label>
+                <input type="text"
+                       id="name"
+                       name="name"
+                       value="@Model.Name"
+                       required />
+            </div>
 
-                <input type="hidden"
-                       name="id"
-                       value="@Model.Id" />
+            <div class="idh-form-actions">
+                <a asp-controller="Admin"
+                   asp-action="Specialties"
+                   class="idh-btn-secondary">
+                    Cancel
+                </a>
 
+                <button type="submit" class="idh-submit-btn">Save Changes</button>
+            </div>
 
-                <div asp-validation-summary="All"
-                     class="text-danger mb-3">
-                </div>
-
-
-                <div class="mb-4">
-
-                    <label for="name"
-                           class="form-label">
-
-                        Specialty Name
-
-                    </label>
-
-                    <input type="text"
-                           id="name"
-                           name="name"
-                           class="form-control"
-                           value="@Model.Name"
-                           required />
-
-                </div>
-
-
-                <div class="d-flex justify-content-end gap-2">
-
-                    <a asp-controller="Admin"
-                       asp-action="Specialties"
-                       class="btn btn-secondary">
-
-                        Cancel
-
-                    </a>
-
-                    <button type="submit"
-                            class="btn btn-primary">
-
-                        Save Changes
-
-                    </button>
-
-                </div>
-
-            </form>
-
-        </div>
-
+        </form>
     </div>
 
 </div>

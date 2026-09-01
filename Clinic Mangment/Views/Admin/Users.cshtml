@@ -1,274 +1,123 @@
-﻿
-@model List<ClinicManagement.Models.User>
+﻿@model List<ClinicManagement.Models.User>
 
 @{
     ViewData["Title"] = "Manage Users";
 }
 
-<div class="container mt-4">
+<div class="idh-dashboard">
 
-    <!-- Header -->
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
+    <div class="idh-header">
         <div>
-
-            <h2>Manage Users</h2>
-
-            <p class="text-muted">
-                Manage reception and administrative accounts
-            </p>
-
+            <h1>Manage Users</h1>
+            <div class="idh-subtitle">Manage reception and administrative accounts</div>
         </div>
 
-        <div>
-
-            <a asp-controller="Admin"
-               asp-action="CreateStaff"
-               class="btn btn-primary">
-
-                + Add User
-
-            </a>
-
-            <a asp-controller="Admin"
-               asp-action="Dashboard"
-               class="btn btn-secondary">
-
-                Back
-
-            </a>
-
+        <div class="idh-header-actions">
+            <a asp-controller="Admin" asp-action="CreateStaff" class="idh-add-btn">Add User</a>
+            <a asp-controller="Admin" asp-action="Dashboard" class="idh-btn-secondary">Back</a>
         </div>
-
     </div>
-
-
-    <!-- Error -->
 
     @if (TempData["Error"] != null)
     {
-        <div class="alert alert-danger">
-
-            @TempData["Error"]
-
-        </div>
+        <div class="idh-alert-error">@TempData["Error"]</div>
     }
 
-
-    <!-- Users Table -->
-
-    <div class="card shadow-sm">
-
-        <div class="card-body">
-
-            @if (Model.Any())
-            {
-                <div class="table-responsive">
-
-                    <table class="table table-hover align-middle">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    #
-                                </th>
-
-                                <th>
-                                    Name
-                                </th>
-
-                                <th>
-                                    Email
-                                </th>
-
-                                <th>
-                                    Role
-                                </th>
-
-                                <th>
-                                    Status
-                                </th>
-
-                                <th class="text-end">
-                                    Actions
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            @foreach (var user in Model)
-                            {
-                                <tr>
-
-                                    <!-- ID -->
-
-                                    <td>
-                                        @user.Id
-                                    </td>
-
-
-                                    <!-- Name -->
-
-                                    <td>
-
-                                        <strong>
-                                            @user.Name
-                                        </strong>
-
-                                    </td>
-
-
-                                    <!-- Email -->
-
-                                    <td>
-                                        @user.Email
-                                    </td>
-
-
-                                    <!-- Role -->
-
-                                    <td>
-
-                                        @if (user.Role == "Admin")
-                                        {
-                                            <span class="badge bg-dark">
-                                                Admin
-                                            </span>
-                                        }
-                                        else if (user.Role == "Reception")
-                                        {
-                                            <span class="badge bg-primary">
-                                                Reception
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">
-                                                @user.Role
-                                            </span>
-                                        }
-
-                                    </td>
-
-
-                                    <!-- Status -->
-
-                                    <td>
-
-                                        @if (user.IsActive)
-                                        {
-                                            <span class="badge bg-success">
-                                                Active
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-danger">
-                                                Inactive
-                                            </span>
-                                        }
-
-                                    </td>
-
-
-                                    <!-- Actions -->
-
-                                    <td class="text-end">
-
-                                        <div class="d-flex justify-content-end gap-2">
-
-                                            @if (user.IsActive)
-                                            {
-                                                <!-- Deactivate -->
-
-                                                <form asp-controller="Admin"
-                                                      asp-action="DeactivateUser"
-                                                      method="post"
-                                                      onsubmit="return confirm('Are you sure you want to deactivate this user?');">
-
-                                                    @Html.AntiForgeryToken()
-
-                                                    <input type="hidden"
-                                                           name="id"
-                                                           value="@user.Id" />
-
-                                                    <button type="submit"
-                                                            class="btn btn-sm btn-outline-danger">
-
-                                                        Deactivate
-
-                                                    </button>
-
-                                                </form>
-                                            }
-                                            else
-                                            {
-                                                <!-- Activate -->
-
-                                                <form asp-controller="Admin"
-                                                      asp-action="ActivateUser"
-                                                      method="post">
-
-                                                    @Html.AntiForgeryToken()
-
-                                                    <input type="hidden"
-                                                           name="id"
-                                                           value="@user.Id" />
-
-                                                    <button type="submit"
-                                                            class="btn btn-sm btn-outline-success">
-
-                                                        Activate
-
-                                                    </button>
-
-                                                </form>
-                                            }
-
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-                            }
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-            }
-            else
-            {
-                <div class="text-center py-5">
-
-                    <h5>
-                        No users found
-                    </h5>
-
-                    <p class="text-muted">
-                        There are currently no users to display.
-                    </p>
-
-                    <a asp-controller="Admin"
-                       asp-action="CreateStaff"
-                       class="btn btn-primary">
-
-                        + Add User
-
-                    </a>
-
-                </div>
-            }
-
+    @if (Model.Any())
+    {
+        <div class="idh-card">
+            <table class="idh-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td class="idh-muted">@user.Id</td>
+                            <td class="idh-patient-name">@user.Name</td>
+                            <td class="idh-muted">@user.Email</td>
+
+                            <td>
+                                @if (user.Role == "Admin")
+                                {
+                                    <span class="idh-badge dark">Admin</span>
+                                }
+                                else if (user.Role == "Reception")
+                                {
+                                    <span class="idh-badge primary">Reception</span>
+                                }
+                                else
+                                {
+                                    <span class="idh-badge light">@user.Role</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (user.IsActive)
+                                {
+                                    <span class="idh-badge success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="idh-badge danger">Inactive</span>
+                                }
+                            </td>
+
+                            <td class="text-end">
+                                <div class="idh-row-actions">
+
+                                    @if (user.IsActive)
+                                    {
+                                        <form asp-controller="Admin"
+                                              asp-action="DeactivateUser"
+                                              method="post"
+                                              onsubmit="return confirm('Are you sure you want to deactivate this user?');">
+
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@user.Id" />
+
+                                            <button type="submit" class="idh-btn-xs deactivate">Deactivate</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-controller="Admin"
+                                              asp-action="ActivateUser"
+                                              method="post">
+
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@user.Id" />
+
+                                            <button type="submit" class="idh-btn-xs activate">Activate</button>
+                                        </form>
+                                    }
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
         </div>
-
-    </div>
+    }
+    else
+    {
+        <div class="idh-empty">
+            <div class="idh-empty-title">No users found</div>
+            <div class="idh-empty-desc idh-muted">There are currently no users to display.</div>
+            <a asp-controller="Admin" asp-action="CreateStaff" class="idh-add-btn">Add User</a>
+        </div>
+    }
 
 </div>

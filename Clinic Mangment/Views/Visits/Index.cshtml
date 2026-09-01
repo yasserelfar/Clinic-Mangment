@@ -38,6 +38,7 @@
                         <th>Doctor</th>
                         <th>Status</th>
                         <th>Created At</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
 
@@ -64,6 +65,14 @@
 
                             <td class="idh-muted">
                                 @visit.CreatedAt
+                            </td>
+                            <td>
+                                <a asp-controller="Visits"
+                                   asp-action="Details"
+                                   asp-route-id="@visit.Id"
+                                   class="idh-btn-xs edit">
+                                    View
+                                </a>
                             </td>
                         </tr>
                     }

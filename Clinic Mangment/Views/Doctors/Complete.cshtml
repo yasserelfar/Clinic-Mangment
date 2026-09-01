@@ -2,304 +2,141 @@
 
 @{
     ViewData["Title"] = "Patient Examination";
+
+    var statusClass = Model.Status.ToString().ToLower() switch
+    {
+        "pending" => "pending",
+        "inprogress" or "in progress" => "inprogress",
+        "completed" => "completed",
+        "cancelled" or "canceled" => "cancelled",
+        _ => "pending"
+    };
 }
 
-<div class="container mt-4">
+<div class="idh-form-page">
 
-    <!-- Header -->
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
+    <div class="idh-header">
         <div>
-            <h2>Patient Examination</h2>
-
-            <p class="text-muted">
-                Visit #@Model.Id
-            </p>
+            <h1>Patient Examination</h1>
+            <div class="idh-subtitle">Visit #@Model.Id</div>
         </div>
 
         <a asp-controller="Doctors"
            asp-action="Dashboard"
-           class="btn btn-secondary">
-
+           class="idh-btn-secondary">
             Back to Dashboard
-
         </a>
-
     </div>
-
 
     <!-- Patient Information -->
-
-    <div class="card shadow-sm mb-4">
-
-        <div class="card-header">
-
-            <h5 class="mb-0">
-                Patient Information
-            </h5>
-
+    <div class="idh-panel">
+        <div class="idh-panel-header">
+            <h2>Patient Information</h2>
         </div>
 
-
-        <div class="card-body">
-
-            <div class="row">
-
-                <!-- Name -->
-
-                <div class="col-md-4 mb-3">
-
-                    <label class="text-muted">
-                        Name
-                    </label>
-
-                    <div class="fw-bold">
-                        @Model.Patient.Name
-                    </div>
-
-                </div>
-
-
-                <!-- Phone -->
-
-                <div class="col-md-4 mb-3">
-
-                    <label class="text-muted">
-                        Phone
-                    </label>
-
-                    <div class="fw-bold">
-                        @Model.Patient.Phone
-                    </div>
-
-                </div>
-
-
-                <!-- Gender -->
-
-                <div class="col-md-4 mb-3">
-
-                    <label class="text-muted">
-                        Gender
-                    </label>
-
-                    <div class="fw-bold">
-                        @Model.Patient.Gender
-                    </div>
-
-                </div>
-
-
-                <!-- Date of Birth -->
-
-                <div class="col-md-4 mb-3">
-
-                    <label class="text-muted">
-                        Date of Birth
-                    </label>
-
-                    <div class="fw-bold">
-                        @Model.Patient.DateOfBirth.ToString("dd/MM/yyyy")
-                    </div>
-
-                </div>
-
-
-                <!-- Address -->
-
-                <div class="col-md-8 mb-3">
-
-                    <label class="text-muted">
-                        Address
-                    </label>
-
-                    <div class="fw-bold">
-                        @(string.IsNullOrWhiteSpace(Model.Patient.Address)
-                            ? "Not provided"
-                            : Model.Patient.Address)
-                    </div>
-
-                </div>
-
+        <div class="idh-result-grid">
+            <div>
+                <span class="idh-result-label">Name</span>
+                <span class="idh-result-value">@Model.Patient.Name</span>
             </div>
-
+            <div>
+                <span class="idh-result-label">Phone</span>
+                <span class="idh-result-value">@Model.Patient.Phone</span>
+            </div>
+            <div>
+                <span class="idh-result-label">Gender</span>
+                <span class="idh-gender-pill @(Model.Patient.Gender == "Female" ? "female" : "male")">
+                    @Model.Patient.Gender
+                </span>
+            </div>
+            <div>
+                <span class="idh-result-label">Date of Birth</span>
+                <span class="idh-result-value">@Model.Patient.DateOfBirth.ToString("dd/MM/yyyy")</span>
+            </div>
+            <div>
+                <span class="idh-result-label">Address</span>
+                <span class="idh-result-value">
+                    @(string.IsNullOrWhiteSpace(Model.Patient.Address)
+                        ? "Not provided"
+                        : Model.Patient.Address)
+                </span>
+            </div>
         </div>
-
     </div>
-
 
     <!-- Visit Information -->
-
-    <div class="card shadow-sm mb-4">
-
-        <div class="card-header">
-
-            <h5 class="mb-0">
-                Visit Information
-            </h5>
-
+    <div class="idh-panel">
+        <div class="idh-panel-header">
+            <h2>Visit Information</h2>
         </div>
 
-
-        <div class="card-body">
-
-            <div class="row">
-
-                <div class="col-md-4">
-
-                    <label class="text-muted">
-                        Specialty
-                    </label>
-
-                    <div class="fw-bold">
-                        @Model.Specialty.Name
-                    </div>
-
-                </div>
-
-
-                <div class="col-md-4">
-
-                    <label class="text-muted">
-                        Visit Status
-                    </label>
-
-                    <div>
-
-                        <span class="badge bg-warning text-dark">
-                            @Model.Status
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="col-md-4">
-
-                    <label class="text-muted">
-                        Started At
-                    </label>
-
-                    <div class="fw-bold">
-
-                        @if (Model.StartedAt.HasValue)
-                        {
-                            @Model.StartedAt.Value.ToLocalTime()
-                        }
-                        else
-                        {
-                            <span>Not started</span>
-                        }
-
-                    </div>
-
-                </div>
-
+        <div class="idh-result-grid">
+            <div>
+                <span class="idh-result-label">Specialty</span>
+                <span class="idh-specialty-pill">@Model.Specialty.Name</span>
             </div>
-
+            <div>
+                <span class="idh-result-label">Visit Status</span>
+                <span class="idh-status-pill @statusClass">@Model.Status</span>
+            </div>
+            <div>
+                <span class="idh-result-label">Started At</span>
+                <span class="idh-result-value">
+                    @if (Model.StartedAt.HasValue)
+                    {
+                        @Model.StartedAt.Value.ToLocalTime()
+                    }
+                    else
+                    {
+                        <span class="idh-muted">Not started</span>
+                    }
+                </span>
+            </div>
         </div>
-
     </div>
 
-
     <!-- Diagnosis -->
-
-    <div class="card shadow-sm mb-4">
-
-        <div class="card-header">
-
-            <h5 class="mb-0">
-                Diagnosis
-            </h5>
-
+    <div class="idh-form-card">
+        <div class="idh-panel-header" style="margin-bottom: 20px;">
+            <h2>Diagnosis</h2>
         </div>
 
+        <form asp-controller="Visits"
+              asp-action="Complete"
+              method="post">
 
-        <div class="card-body">
+            @Html.AntiForgeryToken()
 
-            <form asp-controller="Visits"
-                  asp-action="Complete"
-                  method="post">
+            <input type="hidden" name="visitId" value="@Model.Id" />
 
-                @Html.AntiForgeryToken()
+            <div class="idh-field">
+                <label for="diagnosisText">Diagnosis</label>
+                <textarea id="diagnosisText"
+                          name="diagnosisText"
+                          rows="5"
+                          placeholder="Enter patient's diagnosis..."
+                          required></textarea>
+            </div>
 
+            <div class="idh-field">
+                <label for="notes">Notes</label>
+                <textarea id="notes"
+                          name="notes"
+                          rows="4"
+                          placeholder="Additional notes (optional)..."></textarea>
+            </div>
 
-                <!-- Visit ID -->
+            <div class="idh-form-actions">
+                <a asp-controller="Doctors"
+                   asp-action="Dashboard"
+                   class="idh-btn-secondary">
+                    Cancel
+                </a>
 
-                <input type="hidden"
-                       name="visitId"
-                       value="@Model.Id" />
+                <button type="submit" class="idh-submit-btn">Complete Visit</button>
+            </div>
 
-
-                <!-- Diagnosis -->
-
-                <div class="mb-4">
-
-                    <label for="diagnosisText"
-                           class="form-label">
-
-                        Diagnosis
-
-                    </label>
-
-                    <textarea id="diagnosisText"
-                              name="diagnosisText"
-                              class="form-control"
-                              rows="5"
-                              placeholder="Enter patient's diagnosis..."
-                              required></textarea>
-
-                </div>
-
-
-                <!-- Notes -->
-
-                <div class="mb-4">
-
-                    <label for="notes"
-                           class="form-label">
-
-                        Notes
-
-                    </label>
-
-                    <textarea id="notes"
-                              name="notes"
-                              class="form-control"
-                              rows="4"
-                              placeholder="Additional notes (optional)..."></textarea>
-
-                </div>
-
-
-                <!-- Actions -->
-
-                <div class="d-flex justify-content-end gap-2">
-
-                    <a asp-controller="Doctors"
-                       asp-action="Dashboard"
-                       class="btn btn-secondary">
-
-                        Cancel
-
-                    </a>
-
-
-                    <button type="submit"
-                            class="btn btn-success">
-
-                        Complete Visit
-
-                    </button>
-
-                </div>
-
-            </form>
-
-        </div>
-
+        </form>
     </div>
 
 </div>

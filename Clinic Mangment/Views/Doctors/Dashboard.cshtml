@@ -4,94 +4,67 @@
     ViewData["Title"] = "Doctor Dashboard";
 }
 
-<div class="container mt-4">
+<div class="idh-dashboard">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="idh-header">
         <div>
-            <h2>Doctor Dashboard</h2>
-            <p class="text-muted">
-                Pending visits waiting for examination
-            </p>
+            <h1>Doctor Dashboard</h1>
+            <div class="idh-subtitle">Pending visits waiting for examination</div>
         </div>
 
-        <div>
-            <strong>@User.Identity?.Name</strong>
-        </div>
+        <div class="idh-badge dark">@User.Identity?.Name</div>
     </div>
-
 
     @if (!Model.Any())
     {
-        <div class="alert alert-info">
-            No pending visits at the moment.
-        </div>
+        <div class="idh-alert-info">No pending visits at the moment.</div>
     }
     else
     {
-        <div class="card shadow-sm">
-
-            <div class="card-header">
-                <h5 class="mb-0">
-                    Pending Visits
-                </h5>
+        <div class="idh-panel">
+            <div class="idh-panel-header">
+                <h2>Pending Visits</h2>
             </div>
 
-            <div class="card-body p-0">
+            <table class="idh-table">
+                <thead>
+                    <tr>
+                        <th>Visit #</th>
+                        <th>Patient</th>
+                        <th>Specialty</th>
+                        <th>Created At</th>
+                        <th></th>
+                    </tr>
+                </thead>
 
-                <table class="table table-hover mb-0">
+                <tbody>
 
-                    <thead>
+                    @foreach (var visit in Model)
+                    {
                         <tr>
-                            <th>Visit #</th>
-                            <th>Patient</th>
-                            <th>Specialty</th>
-                            <th>Created At</th>
-                            <th>Action</th>
+
+                            <td class="idh-muted">#@visit.Id</td>
+
+                            <td class="idh-patient-name">@visit.Patient.Name</td>
+
+                            <td><span class="idh-specialty-pill">@visit.Specialty.Name</span></td>
+
+                            <td class="idh-muted">@visit.CreatedAt.ToLocalTime()</td>
+
+                            <td>
+                                <a asp-controller="Doctors"
+                                   asp-action="Complete"
+                                   asp-route-id="@visit.Id"
+                                   class="idh-open-btn">
+                                    Start Examination
+                                </a>
+                            </td>
+
                         </tr>
-                    </thead>
+                    }
 
-                    <tbody>
-
-                        @foreach (var visit in Model)
-                        {
-                            <tr>
-
-                                <td>
-                                    #@visit.Id
-                                </td>
-
-                                <td>
-                                    @visit.Patient.Name
-                                </td>
-
-                                <td>
-                                    @visit.Specialty.Name
-                                </td>
-
-                                <td>
-                                    @visit.CreatedAt.ToLocalTime()
-                                </td>
-
-                                <td>
-
-                                    <a asp-controller="Doctors"
-                                       asp-action="Complete"
-                                       asp-route-id="@visit.Id"
-                                       class="btn btn-primary btn-sm">
-                                        Start Examination
-                                    </a>
-
-                                </td>
-
-                            </tr>
-                        }
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
+                </tbody>
+            </table>
         </div>
     }
 
