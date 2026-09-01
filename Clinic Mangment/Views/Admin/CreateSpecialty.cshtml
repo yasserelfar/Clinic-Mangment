@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Add Specialty";
+}
+
+<div class="idh-form-page">
+
+    <div class="idh-header">
+        <div>
+            <h1>Add Specialty</h1>
+            <div class="idh-subtitle">Create a new clinic specialty</div>
+        </div>
+        <a asp-controller="Admin"
+           asp-action="Specialties"
+           class="idh-btn-secondary">
+            Back
+        </a>
+    </div>
+
+    <div class="idh-form-card">
+        <form asp-controller="Admin"
+              asp-action="CreateSpecialty"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="All" class="idh-validation-summary"></div>
+
+            <div class="idh-field">
+                <label for="name">Specialty Name</label>
+                <input type="text"
+                       id="name"
+                       name="name"
+                       placeholder="e.g. Cardiology"
+                       required />
+            </div>
+
+            <div class="idh-form-actions">
+                <a asp-controller="Admin"
+                   asp-action="Specialties"
+                   class="idh-btn-secondary">
+                    Cancel
+                </a>
+
+                <button type="submit" class="idh-submit-btn">Create Specialty</button>
+            </div>
+
+        </form>
+    </div>
+
+</div>

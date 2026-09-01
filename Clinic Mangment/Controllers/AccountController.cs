@@ -43,7 +43,11 @@ public class AccountController : Controller
 
             return View();
         }
-
+        if (!user.IsActive) 
+        {
+            ModelState.AddModelError("", "Your account is inactive."); 
+            return View();
+        }
         // 3. Verify password
         var result = _passwordHasher.VerifyHashedPassword(
             user,

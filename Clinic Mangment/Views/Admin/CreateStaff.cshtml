@@ -1,0 +1,127 @@
+﻿@{
+    ViewData["Title"] = "Add Staff";
+}
+
+<div class="idh-form-page">
+
+    <div class="idh-header">
+        <div>
+            <h1>Add Staff Member</h1>
+            <div class="idh-subtitle">Create a Doctor or Reception account</div>
+        </div>
+
+        <a asp-controller="Admin"
+           asp-action="Dashboard"
+           class="idh-btn-secondary">
+            Back to Dashboard
+        </a>
+    </div>
+
+    <div class="idh-form-card">
+        <form asp-action="CreateStaff"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="idh-validation-summary"></div>
+
+            <div class="idh-field">
+                <label for="name">Full Name</label>
+                <input type="text"
+                       id="name"
+                       name="name"
+                       placeholder="Enter full name"
+                       required />
+                <span class="text-danger" data-valmsg-for="name"></span>
+            </div>
+
+            <div class="idh-field">
+                <label for="email">Email</label>
+                <input type="email"
+                       id="email"
+                       name="email"
+                       placeholder="Enter email"
+                       required />
+            </div>
+
+            <div class="idh-field">
+                <label for="password">Password</label>
+                <input type="password"
+                       id="password"
+                       name="password"
+                       placeholder="Enter password"
+                       required />
+            </div>
+
+            <div class="idh-field">
+                <label for="role">Role</label>
+                <select id="role" name="role" required>
+                    <option value="">Select Role</option>
+                    <option value="Doctor">Doctor</option>
+                    <option value="Reception">Reception</option>
+                </select>
+            </div>
+
+            <div class="idh-field" id="specialtyContainer" style="display:none;">
+                <label for="specialtyId">Specialty</label>
+                <select id="specialtyId" name="specialtyId">
+                    <option value="">Select Specialty</option>
+
+                    @foreach (var specialty in ViewBag.Specialties)
+                    {
+                        <option value="@specialty.Id">
+                            @specialty.Name
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="idh-form-actions">
+                <a asp-controller="Admin"
+                   asp-action="Dashboard"
+                   class="idh-btn-secondary">
+                    Cancel
+                </a>
+
+                <button type="submit" class="idh-submit-btn">Create Staff</button>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<script>
+
+    const roleSelect =
+        document.getElementById("role");
+
+    const specialtyContainer =
+        document.getElementById("specialtyContainer");
+
+    const specialtySelect =
+        document.getElementById("specialtyId");
+
+
+    roleSelect.addEventListener("change", function() {
+
+        if (this.value === "Doctor") {
+
+            specialtyContainer.style.display = "block";
+
+            specialtySelect.required = true;
+
+        }
+        else {
+
+            specialtyContainer.style.display = "none";
+
+            specialtySelect.required = false;
+
+            specialtySelect.value = "";
+
+        }
+
+    });
+
+</script>

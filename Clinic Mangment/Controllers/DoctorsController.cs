@@ -18,8 +18,9 @@ public class DoctorsController : Controller
         _context = context;
     }
 
+
     // =========================================================
-    // Get doctors by specialty
+    // Get Doctors By Specialty
     // Used by Reception when creating a Visit
     // =========================================================
 
@@ -64,7 +65,9 @@ public class DoctorsController : Controller
 
         if (doctor == null)
         {
-            return NotFound("Doctor profile not found.");
+            return NotFound(
+                "Doctor profile not found."
+            );
         }
 
         var visits = _context.Visits
@@ -83,6 +86,7 @@ public class DoctorsController : Controller
     // =========================================================
     // Start Examination
     // Opens a Pending Visit for the logged-in doctor
+    // Changes status: Pending → InProgress
     // =========================================================
 
     [Authorize(Roles = "Doctor")]
@@ -104,26 +108,34 @@ public class DoctorsController : Controller
 
         if (doctor == null)
         {
-            return NotFound("Doctor profile not found.");
+            return NotFound(
+                "Doctor profile not found."
+            );
         }
 
         var visit = _context.Visits
             .Include(v => v.Patient)
+            .Include(v => v.Specialty)
             .FirstOrDefault(v =>
                 v.Id == id &&
                 v.DoctorId == doctor.Id);
 
         if (visit == null)
         {
-            return NotFound("Visit not found.");
+            return NotFound(
+                "Visit not found."
+            );
         }
 
         if (visit.Status != VisitStatus.Pending)
         {
-            return BadRequest("This visit is not pending.");
+            return BadRequest(
+                "This visit is not pending."
+            );
         }
 
         visit.Status = VisitStatus.InProgress;
+
         visit.StartedAt = DateTime.UtcNow;
 
         _context.SaveChanges();
@@ -135,10 +147,12 @@ public class DoctorsController : Controller
     // =========================================================
     // Complete Examination
     // Saves Diagnosis and completes the Visit
+    // Changes status: InProgress → Completed
     // =========================================================
 
     [Authorize(Roles = "Doctor")]
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult Complete(
         int visitId,
         string diagnosisText,
@@ -159,17 +173,23 @@ public class DoctorsController : Controller
 
         if (doctor == null)
         {
-            return NotFound("Doctor profile not found.");
+            return NotFound(
+                "Doctor profile not found."
+            );
         }
 
         var visit = _context.Visits
+            .Include(v => v.Patient)
+            .Include(v => v.Specialty)
             .FirstOrDefault(v =>
                 v.Id == visitId &&
                 v.DoctorId == doctor.Id);
 
         if (visit == null)
         {
-            return NotFound("Visit not found.");
+            return NotFound(
+                "Visit not found."
+            );
         }
 
         if (visit.Status != VisitStatus.InProgress)
@@ -192,18 +212,25 @@ public class DoctorsController : Controller
         var diagnosis = new Models.Diagnosis
         {
             VisitId = visitId,
+
             DiagnosisText = diagnosisText,
+
             Notes = notes,
+
             CreatedAt = DateTime.UtcNow
         };
 
         _context.Diagnoses.Add(diagnosis);
 
         visit.Status = VisitStatus.Completed;
+
         visit.CompletedAt = DateTime.UtcNow;
 
         _context.SaveChanges();
 
-        return RedirectToAction("Dashboard");
+        return RedirectToAction(
+            "Dashboard",
+            "Doctors"
+        );
     }
 }

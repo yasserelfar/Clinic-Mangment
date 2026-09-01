@@ -1,0 +1,305 @@
+﻿@model ClinicManagement.Models.Visit
+
+@{
+    ViewData["Title"] = "Patient Examination";
+}
+
+<div class="container mt-4">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>Patient Examination</h2>
+
+            <p class="text-muted">
+                Visit #@Model.Id
+            </p>
+        </div>
+
+        <a asp-controller="Doctors"
+           asp-action="Dashboard"
+           class="btn btn-secondary">
+
+            Back to Dashboard
+
+        </a>
+
+    </div>
+
+
+    <!-- Patient Information -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+                Patient Information
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- Name -->
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="text-muted">
+                        Name
+                    </label>
+
+                    <div class="fw-bold">
+                        @Model.Patient.Name
+                    </div>
+
+                </div>
+
+
+                <!-- Phone -->
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="text-muted">
+                        Phone
+                    </label>
+
+                    <div class="fw-bold">
+                        @Model.Patient.Phone
+                    </div>
+
+                </div>
+
+
+                <!-- Gender -->
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="text-muted">
+                        Gender
+                    </label>
+
+                    <div class="fw-bold">
+                        @Model.Patient.Gender
+                    </div>
+
+                </div>
+
+
+                <!-- Date of Birth -->
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="text-muted">
+                        Date of Birth
+                    </label>
+
+                    <div class="fw-bold">
+                        @Model.Patient.DateOfBirth.ToString("dd/MM/yyyy")
+                    </div>
+
+                </div>
+
+
+                <!-- Address -->
+
+                <div class="col-md-8 mb-3">
+
+                    <label class="text-muted">
+                        Address
+                    </label>
+
+                    <div class="fw-bold">
+                        @(string.IsNullOrWhiteSpace(Model.Patient.Address)
+                            ? "Not provided"
+                            : Model.Patient.Address)
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Visit Information -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+                Visit Information
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <label class="text-muted">
+                        Specialty
+                    </label>
+
+                    <div class="fw-bold">
+                        @Model.Specialty.Name
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label class="text-muted">
+                        Visit Status
+                    </label>
+
+                    <div>
+
+                        <span class="badge bg-warning text-dark">
+                            @Model.Status
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label class="text-muted">
+                        Started At
+                    </label>
+
+                    <div class="fw-bold">
+
+                        @if (Model.StartedAt.HasValue)
+                        {
+                            @Model.StartedAt.Value.ToLocalTime()
+                        }
+                        else
+                        {
+                            <span>Not started</span>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Diagnosis -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+                Diagnosis
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <form asp-controller="Visits"
+                  asp-action="Complete"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+
+                <!-- Visit ID -->
+
+                <input type="hidden"
+                       name="visitId"
+                       value="@Model.Id" />
+
+
+                <!-- Diagnosis -->
+
+                <div class="mb-4">
+
+                    <label for="diagnosisText"
+                           class="form-label">
+
+                        Diagnosis
+
+                    </label>
+
+                    <textarea id="diagnosisText"
+                              name="diagnosisText"
+                              class="form-control"
+                              rows="5"
+                              placeholder="Enter patient's diagnosis..."
+                              required></textarea>
+
+                </div>
+
+
+                <!-- Notes -->
+
+                <div class="mb-4">
+
+                    <label for="notes"
+                           class="form-label">
+
+                        Notes
+
+                    </label>
+
+                    <textarea id="notes"
+                              name="notes"
+                              class="form-control"
+                              rows="4"
+                              placeholder="Additional notes (optional)..."></textarea>
+
+                </div>
+
+
+                <!-- Actions -->
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a asp-controller="Doctors"
+                       asp-action="Dashboard"
+                       class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="btn btn-success">
+
+                        Complete Visit
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

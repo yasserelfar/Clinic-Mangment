@@ -1,0 +1,288 @@
+﻿@model List<ClinicManagement.Models.Doctor>
+
+@{
+    ViewData["Title"] = "Manage Doctors";
+}
+
+<div class="container mt-4">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>
+                Manage Doctors
+            </h2>
+
+            <p class="text-muted">
+                View and manage clinic doctors
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <a asp-controller="Admin"
+               asp-action="CreateStaff"
+               class="btn btn-primary">
+
+                + Add Doctor
+
+            </a>
+
+            <a asp-controller="Admin"
+               asp-action="Dashboard"
+               class="btn btn-secondary">
+
+                Back
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Error Message -->
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+
+            @TempData["Error"]
+
+        </div>
+    }
+
+
+    <!-- Doctors Table -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    #
+                                </th>
+
+                                <th>
+                                    Doctor
+                                </th>
+
+                                <th>
+                                    Email
+                                </th>
+
+                                <th>
+                                    Specialty
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th class="text-end">
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (var doctor in Model)
+                            {
+                                <tr>
+
+                                    <!-- ID -->
+
+                                    <td>
+                                        @doctor.Id
+                                    </td>
+
+
+                                    <!-- Doctor -->
+
+                                    <td>
+
+                                        <strong>
+                                            @doctor.User.Name
+                                        </strong>
+
+                                    </td>
+
+
+                                    <!-- Email -->
+
+                                    <td>
+
+                                        @doctor.User.Email
+
+                                    </td>
+
+
+                                    <!-- Specialty -->
+
+                                    <td>
+
+                                        <span class="badge bg-light text-dark">
+
+                                            @doctor.Specialty.Name
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- Status -->
+
+                                    <td>
+
+                                        @if (doctor.User.IsActive)
+                                        {
+                                            <span class="badge bg-success">
+                                                Active
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">
+                                                Inactive
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <!-- Actions -->
+
+                                    <td class="text-end">
+
+                                        <div class="d-flex justify-content-end gap-2">
+
+                                            @if (doctor.User.IsActive)
+                                            {
+                                                <!-- Deactivate -->
+
+                                                <form asp-controller="Admin"
+                                                      asp-action="DeactivateDoctor"
+                                                      method="post">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <input type="hidden"
+                                                           name="id"
+                                                           value="@doctor.Id" />
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-warning">
+
+                                                        Deactivate
+
+                                                    </button>
+
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <!-- Activate -->
+
+                                                <form asp-controller="Admin"
+                                                      asp-action="ActivateDoctor"
+                                                      method="post">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <input type="hidden"
+                                                           name="id"
+                                                           value="@doctor.Id" />
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-success">
+
+                                                        Activate
+
+                                                    </button>
+
+                                                </form>
+                                            }
+
+
+                                            <!-- Delete -->
+
+                                            <form asp-controller="Admin"
+                                                  asp-action="DeleteDoctor"
+                                                  method="post"
+                                                  onsubmit="return confirm('Are you sure you want to delete this doctor?');">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <input type="hidden"
+                                                       name="id"
+                                                       value="@doctor.Id" />
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-danger">
+
+                                                    Delete
+
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+
+                    <h5>
+                        No doctors found
+                    </h5>
+
+                    <p class="text-muted">
+                        There are currently no doctors in the system.
+                    </p>
+
+
+                    <a asp-controller="Admin"
+                       asp-action="CreateStaff"
+                       class="btn btn-primary">
+
+                        + Add Doctor
+
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
