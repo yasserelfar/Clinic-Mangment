@@ -17,7 +17,7 @@ namespace ClinicManagement.Data
         public DbSet<Visit> Visits { get; set; }
         public DbSet<Diagnosis> Diagnoses { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
-
+        public DbSet<VisitAttachment> VisitAttachments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -124,6 +124,21 @@ namespace ClinicManagement.Data
                 .WithMany(v => v.Prescriptions)
                 .HasForeignKey(p => p.VisitId)
                 .OnDelete(DeleteBehavior.Cascade);
+            // =====================================================
+            // Visit ↔ VisitAttachment (One-to-Many)
+            // =====================================================
+            modelBuilder.Entity<VisitAttachment>()
+            .HasOne(a => a.Visit)
+            .WithMany(v => v.Attachments)
+            .HasForeignKey(a => a.VisitId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<VisitAttachment>()
+            .HasOne(a => a.UploadedByUser)
+            .WithMany()
+            .HasForeignKey(a => a.UploadedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

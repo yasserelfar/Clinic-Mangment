@@ -24,15 +24,15 @@ public class VisitsController : Controller
     // =====================================================
 
     [HttpGet]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var visits = _context.Visits
+        var visits = await _context.Visits
             .Include(v => v.Patient)
             .Include(v => v.Doctor)
                 .ThenInclude(d => d.User)
             .Include(v => v.Specialty)
             .OrderByDescending(v => v.CreatedAt)
-            .ToList();
+            .ToListAsync();
 
         return View(visits);
     }
@@ -45,19 +45,19 @@ public class VisitsController : Controller
 
     [Authorize(Roles = "Reception")]
     [HttpGet]
-    public IActionResult Create(int patientId)
+    public async Task<IActionResult> Create(int patientId)
     {
-        var patient = _context.Patients
-            .FirstOrDefault(p => p.Id == patientId);
+        var patient = await _context.Patients
+            .FirstOrDefaultAsync(p => p.Id == patientId);
 
         if (patient == null)
         {
             return NotFound("Patient not found.");
         }
 
-        ViewBag.Specialties = _context.Specialties
+        ViewBag.Specialties = await _context.Specialties
             .OrderBy(s => s.Name)
-            .ToList();
+            .ToListAsync();
 
         return View(patient);
     }
@@ -71,15 +71,12 @@ public class VisitsController : Controller
     [Authorize(Roles = "Reception")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(
-        int patientId,
-        int specialtyId,
-        int doctorId)
+    public async Task<IActionResult> Create(int patientId,int specialtyId,int doctorId)
     {
         // Find patient
 
-        var patient = _context.Patients
-            .FirstOrDefault(p => p.Id == patientId);
+        var patient = await _context.Patients
+            .FirstOrDefaultAsync(p => p.Id == patientId);
 
         if (patient == null)
         {
@@ -89,8 +86,8 @@ public class VisitsController : Controller
 
         // Find specialty
 
-        var specialty = _context.Specialties
-            .FirstOrDefault(s => s.Id == specialtyId);
+        var specialty = await _context.Specialties
+            .FirstOrDefaultAsync(s => s.Id == specialtyId);
 
         if (specialty == null)
         {
@@ -100,8 +97,8 @@ public class VisitsController : Controller
 
         // Find doctor
 
-        var doctor = _context.Doctors
-            .FirstOrDefault(d => d.Id == doctorId);
+        var doctor = await _context.Doctors
+            .FirstOrDefaultAsync(d => d.Id == doctorId);
 
         if (doctor == null)
         {
@@ -124,23 +121,24 @@ public class VisitsController : Controller
         var visit = new Visit
         {
             PatientId = patientId,
-
             SpecialtyId = specialtyId,
-
             DoctorId = doctorId,
-
             Status = VisitStatus.Pending,
-
             CreatedAt = DateTime.UtcNow
         };
 
 
         _context.Visits.Add(visit);
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
 
-        // Return to reception
+        TempData["ToastMessage"] =
+            "Visit created successfully.";
+
+        TempData["ToastType"] =
+            "success";
+
 
         return RedirectToAction(
             "Dashboard",
@@ -153,27 +151,247 @@ public class VisitsController : Controller
     // DETAILS
     // =====================================================
 
+    [Authorize(Roles = "Reception,Doctor")]
     [HttpGet]
-    public IActionResult Details(int id)
+    public async Task<IActionResult> Details(int id)
     {
-        var visit = _context.Visits
+        var visit = await _context.Visits
+
             .Include(v => v.Patient)
+
             .Include(v => v.Doctor)
                 .ThenInclude(d => d.User)
+
             .Include(v => v.Specialty)
+
             .Include(v => v.Diagnosis)
-            .Include(v => v.Prescriptions)
-            .FirstOrDefault(v => v.Id == id);
+
+            .Include(v => v.Attachments)
+
+            .FirstOrDefaultAsync(v => v.Id == id);
+
 
         if (visit == null)
         {
             return NotFound();
         }
 
+
         return View(visit);
     }
 
 
+    // =====================================================
+    // UPLOAD ATTACHMENTS
+    // Reception / Doctor
+    // =====================================================
+
+    [Authorize(Roles = "Reception,Doctor")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UploadAttachment(
+        int visitId,
+        IFormFileCollection files)
+    {
+        var visit = await _context.Visits
+            .FirstOrDefaultAsync(v => v.Id == visitId);
+
+        if (visit == null)
+        {
+            return NotFound(new
+            {
+                success = false,
+                message = "Visit not found."
+            });
+        }
+
+        if (files == null || files.Count == 0)
+        {
+            return BadRequest(new
+            {
+                success = false,
+                message = "Please select at least one file."
+            });
+        }
+
+        var userIdClaim = User.FindFirstValue(
+            ClaimTypes.NameIdentifier
+        );
+
+        if (!int.TryParse(userIdClaim, out var userId))
+        {
+            return Unauthorized(new
+            {
+                success = false,
+                message = "Unauthorized."
+            });
+        }
+
+        const long maxFileSize = 10 * 1024 * 1024;
+
+        var allowedExtensions = new HashSet<string>(
+            StringComparer.OrdinalIgnoreCase)
+    {
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".pdf"
+    };
+
+        var uploadFolder = Path.Combine(
+            Directory.GetCurrentDirectory(),
+            "wwwroot",
+            "uploads",
+            "visits",
+            visitId.ToString()
+        );
+
+        Directory.CreateDirectory(uploadFolder);
+
+        var uploadedAttachments = new List<VisitAttachment>();
+
+        foreach (var file in files)
+        {
+            if (file == null || file.Length == 0)
+                continue;
+
+            if (file.Length > maxFileSize)
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message =
+                        $"File '{file.FileName}' exceeds the 10 MB limit."
+                });
+            }
+
+            var extension = Path.GetExtension(file.FileName);
+
+            if (string.IsNullOrWhiteSpace(extension) ||
+                !allowedExtensions.Contains(extension))
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message =
+                        $"File '{file.FileName}' is not allowed."
+                });
+            }
+
+            var storedFileName =
+                $"{Guid.NewGuid():N}{extension.ToLowerInvariant()}";
+
+            var physicalFilePath = Path.Combine(
+                uploadFolder,
+                storedFileName
+            );
+
+            await using (var stream = new FileStream(
+                physicalFilePath,
+                FileMode.CreateNew,
+                FileAccess.Write,
+                FileShare.None))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var attachment = new VisitAttachment
+            {
+                VisitId = visitId,
+
+                FileName = Path.GetFileName(file.FileName),
+
+                FilePath =
+                    $"/uploads/visits/{visitId}/{storedFileName}",
+
+                ContentType =
+                    string.IsNullOrWhiteSpace(file.ContentType)
+                        ? "application/octet-stream"
+                        : file.ContentType,
+
+                FileSize = file.Length,
+
+                UploadedAt = DateTime.UtcNow,
+
+                UploadedByUserId = userId
+            };
+
+            _context.VisitAttachments.Add(attachment);
+
+            uploadedAttachments.Add(attachment);
+        }
+
+        if (uploadedAttachments.Count == 0)
+        {
+            return BadRequest(new
+            {
+                success = false,
+                message = "No valid files were uploaded."
+            });
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Json(new
+        {
+            success = true,
+
+            files = uploadedAttachments.Select(a => new
+            {
+                id = a.Id,
+                fileName = a.FileName,
+                filePath = a.FilePath,
+                contentType = a.ContentType,
+                fileSize = a.FileSize,
+
+                uploadedAt = a.UploadedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+            })
+        });
+    }
+
+
+
+    [Authorize(Roles = "Reception,Doctor")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteAttachment(int id)
+    {
+        var attachment = await _context.VisitAttachments
+            .FirstOrDefaultAsync(a => a.Id == id);
+
+        if (attachment == null)
+        {
+            return NotFound(new
+            {
+                success = false,
+                message = "Attachment not found."
+            });
+        }
+
+        // Delete physical file
+        var physicalPath = Path.Combine(
+            Directory.GetCurrentDirectory(),
+            "wwwroot",
+            attachment.FilePath.TrimStart('/')
+                .Replace('/', Path.DirectorySeparatorChar)
+        );
+
+        if (System.IO.File.Exists(physicalPath))
+        {
+            System.IO.File.Delete(physicalPath);
+        }
+
+        // Delete database record
+        _context.VisitAttachments.Remove(attachment);
+
+        await _context.SaveChangesAsync();
+
+        return Json(new
+        {
+            success = true,
+            id = attachment.Id
+        });
+    }
     // =====================================================
     // COMPLETE VISIT
     // Doctor
@@ -182,16 +400,15 @@ public class VisitsController : Controller
     [Authorize(Roles = "Doctor")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Complete(
-        int visitId,
-        string diagnosisText,
-        string? notes)
+    public IActionResult Complete(int visitId,string diagnosisText,string? notes)
     {
         // Get current logged-in user
 
-        var userId = User.FindFirstValue(
-            ClaimTypes.NameIdentifier
-        );
+        var userId =
+            User.FindFirstValue(
+                ClaimTypes.NameIdentifier
+            );
+
 
         if (userId == null)
         {
@@ -205,6 +422,7 @@ public class VisitsController : Controller
             .FirstOrDefault(d =>
                 d.UserId == int.Parse(userId));
 
+
         if (doctor == null)
         {
             return NotFound(
@@ -216,7 +434,9 @@ public class VisitsController : Controller
         // Find visit
 
         var visit = _context.Visits
-            .FirstOrDefault(v => v.Id == visitId);
+            .FirstOrDefault(v =>
+                v.Id == visitId);
+
 
         if (visit == null)
         {
@@ -224,7 +444,7 @@ public class VisitsController : Controller
         }
 
 
-        // Make sure this visit belongs to this doctor
+        // Make sure visit belongs to doctor
 
         if (visit.DoctorId != doctor.Id)
         {
@@ -244,7 +464,8 @@ public class VisitsController : Controller
 
         // Validate diagnosis
 
-        if (string.IsNullOrWhiteSpace(diagnosisText))
+        if (string.IsNullOrWhiteSpace(
+            diagnosisText))
         {
             ModelState.AddModelError(
                 "diagnosisText",
@@ -259,24 +480,32 @@ public class VisitsController : Controller
 
         var diagnosis = new Diagnosis
         {
-            VisitId = visitId,
+            VisitId =
+                visitId,
 
-            DiagnosisText = diagnosisText,
+            DiagnosisText =
+                diagnosisText,
 
-            Notes = notes,
+            Notes =
+                notes,
 
-            CreatedAt = DateTime.UtcNow
+            CreatedAt =
+                DateTime.UtcNow
         };
 
 
-        _context.Diagnoses.Add(diagnosis);
+        _context.Diagnoses.Add(
+            diagnosis
+        );
 
 
         // Complete visit
 
-        visit.Status = VisitStatus.Completed;
+        visit.Status =
+            VisitStatus.Completed;
 
-        visit.CompletedAt = DateTime.UtcNow;
+        visit.CompletedAt =
+            DateTime.UtcNow;
 
 
         _context.SaveChanges();

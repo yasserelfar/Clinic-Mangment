@@ -6,18 +6,23 @@
     <title>@ViewData["Title"] - IDH Clinic Management</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="icon" type="image/x-icon" href="~/stethoscope.png">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Clinic_Mangment.styles.css" asp-append-version="true" />
 </head>
 <body>
+    <div id="idh-progress-bar"></div>
+
     <header>
-       
+
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark idh-navbar mb-3">
 
             <div class="container-fluid">
 
                 <!-- Brand -->
-
+                <img src="~/stethoscope.png"
+                     alt="Clinic Management Logo"
+                     class="idh-navbar-logo" />
                 <a class="navbar-brand"
                    asp-area=""
                    asp-controller="Home"
@@ -71,7 +76,6 @@
 
 
                             <!-- ADMIN -->
-
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
@@ -257,11 +261,12 @@
             </div>
 
         </nav>
-     
+
     </header>
     <div class="container">
-        <main role="main" class="pb-3 idh-main">
+        <main role="main" id="idh-view" class="pb-3 idh-main">
             @RenderBody()
+            @await RenderSectionAsync("Scripts", required: false)
         </main>
     </div>
 
@@ -273,6 +278,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/js/idh-dashboard.js" asp-append-version="true"></script>
+    <script src="~/js/idh-toast.js" asp-append-version="true"></script>
+    <script src="~/js/idh-page-transitions.js" asp-append-version="true"></script>
+    @* @await RenderSectionAsync("Scripts", required: false) *@
 </body>
 </html>

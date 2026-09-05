@@ -12,45 +12,123 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body style="background: var(--idh-gray);">
+<body>
 
-    <div class="idh-login-page">
-        <div class="idh-login-card">
+    <div class="idh-split">
 
-            <div class="idh-login-brand">
-                <span class="idh-dot"></span>
-                <span>Integrated Diagnostics Holdings</span>
+        <!-- LEFT: doctor-bot illustration -->
+        <div class="idh-split-left">
+            <div class="idh-bot-wrap">
+                <svg class="idh-bot-glow" width="220" height="260" viewBox="0 0 220 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                    <!-- antenna -->
+                    <path d="M110 20 L108 34 M108 34 L114 40 M114 40 L106 46" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="106" cy="46" r="3" fill="white" />
+
+                    <!-- head (octagon) -->
+                    <path d="M85 55 H135 L160 80 V145 L135 170 H85 L60 145 V80 Z"
+                          stroke="white" stroke-width="5" stroke-linejoin="round" />
+
+                    <!-- ear blocks -->
+                    <rect x="50" y="95" width="14" height="34" rx="4" fill="white" />
+                    <rect x="156" y="95" width="14" height="34" rx="4" fill="white" />
+
+                    <!-- face visor -->
+                    <rect x="88" y="90" width="44" height="50" rx="10" stroke="white" stroke-width="4" />
+
+                    <!-- eyes: this group gets nudged toward the cursor via JS -->
+                    <g id="idh-bot-eyes">
+                        <rect x="97" y="103" width="5" height="14" rx="2" fill="white" />
+                        <rect x="118" y="103" width="5" height="14" rx="2" fill="white" />
+                    </g>
+
+                    <rect x="102" y="126" width="16" height="4" rx="2" fill="white" />
+
+                    <!-- stethoscope: from ears down around neck to chest piece -->
+                    <path class="idh-steth-tube"
+                          d="M57 112 C 30 150, 30 190, 70 205 C 95 215, 120 215, 150 205 C 190 190, 190 150, 163 112"
+                          stroke="white" stroke-width="4" fill="none" stroke-linecap="round" />
+
+                    <!-- chest piece -->
+                    <g class="idh-steth-chest">
+                        <circle cx="110" cy="222" r="14" stroke="white" stroke-width="4" />
+                        <path d="M104 222 H116 M110 216 V228" stroke="white" stroke-width="3" stroke-linecap="round" />
+                    </g>
+                </svg>
             </div>
 
-            <h1>Welcome back</h1>
-            <p class="idh-subtitle">Sign in to access the Clinic Management System</p>
-
-            <div asp-validation-summary="All" class="idh-validation-summary"></div>
-
-            <form asp-action="Login" method="post">
-
-                <div class="idh-field">
-                    <label>Email</label>
-                    <input type="email"
-                           name="email"
-                           placeholder="you@idhcorp.com"
-                           required />
-                </div>
-
-                <div class="idh-field">
-                    <label>Password</label>
-                    <input type="password"
-                           name="password"
-                           placeholder="Enter your password"
-                           required />
-                </div>
-
-                <button type="submit" class="idh-submit-btn">Login</button>
-
-            </form>
-
+            <div class="idh-split-caption">Integrated Diagnostics Holdings — Clinic Management</div>
         </div>
+
+        <!-- RIGHT: login form -->
+        <div class="idh-split-right">
+            <div class="idh-login-card">
+
+                <div class="idh-login-brand">
+                    <span class="idh-dot"></span>
+                    <span>Integrated Diagnostics Holdings</span>
+                </div>
+
+                <h1>Welcome back</h1>
+                <p class="idh-subtitle">Sign in to access the Clinic Management System</p>
+
+                <div asp-validation-summary="All" class="idh-validation-summary"></div>
+
+                <form asp-action="Login" method="post">
+
+                    <div class="idh-field">
+                        <label>Email</label>
+                        <input type="email"
+                               name="email"
+                               placeholder="you@idhcorp.com"
+                               required />
+                    </div>
+
+                    <div class="idh-field">
+                        <label>Password</label>
+                        <input type="password"
+                               name="password"
+                               placeholder="Enter your password"
+                               required />
+                    </div>
+
+                    <button type="submit" class="idh-submit-btn">Login</button>
+
+                </form>
+
+            </div>
+        </div>
+
     </div>
+
+    <script>
+            (function () {
+                var eyes = document.getElementById('idh-bot-eyes');
+                var botWrap = document.querySelector('.idh-bot-wrap');
+                if (!eyes || !botWrap) return;
+
+                var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (prefersReducedMotion) return;
+
+                var maxOffsetX = 5; 
+                var maxOffsetY = 10;   // and vertically, inside the visor
+
+                document.addEventListener('mousemove', function (e) {
+                    var rect = botWrap.getBoundingClientRect();
+                    var centerX = rect.left + rect.width / 2;
+                    var centerY = rect.top + rect.height / 2 - 20; // eyes sit above the wrap's center
+
+                    var dx = e.clientX - centerX;
+                    var dy = e.clientY - centerY;
+                    var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+                    var offsetX = (dx / dist) * maxOffsetX;
+                    var offsetY = (dy / dist) * maxOffsetY;
+
+                    eyes.setAttribute('transform', 'translate(' + offsetX.toFixed(2) + ',' + offsetY.toFixed(2) + ')');
+                });
+            })();
+    </script>
 
 </body>
 </html>

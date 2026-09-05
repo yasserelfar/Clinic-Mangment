@@ -1,0 +1,18 @@
+﻿@if (TempData["ToastMessage"] != null)
+{
+    <script>
+        (function () {
+            function fire() {
+                if (window.IDHToast) {
+                    window.IDHToast.show(@Html.Raw(Json.Serialize(TempData["ToastMessage"])), @Html.Raw(Json.Serialize(TempData["ToastType"] ?? "success")));
+                }
+            }
+            if (document.readyState === "complete" || document.readyState === "interactive") {
+                fire();
+            } else {
+                document.addEventListener("DOMContentLoaded", fire);
+            }
+        })();
+    </script>
+}
+.

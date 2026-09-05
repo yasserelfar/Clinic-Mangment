@@ -75,7 +75,7 @@ public class DoctorsController : Controller
             .Include(v => v.Specialty)
             .Where(v =>
                 v.DoctorId == doctor.Id &&
-                v.Status == VisitStatus.Pending)
+                v.Status == VisitStatus.Pending|| v.Status == VisitStatus.InProgress)
             .OrderBy(v => v.CreatedAt)
             .ToList();
 
@@ -116,6 +116,8 @@ public class DoctorsController : Controller
         var visit = _context.Visits
             .Include(v => v.Patient)
             .Include(v => v.Specialty)
+            .Include(v => v.Diagnosis)
+            .Include(v=>v.Attachments)
             .FirstOrDefault(v =>
                 v.Id == id &&
                 v.DoctorId == doctor.Id);
@@ -127,10 +129,10 @@ public class DoctorsController : Controller
             );
         }
 
-        if (visit.Status != VisitStatus.Pending)
+        if (visit.Status == VisitStatus.Completed)
         {
             return BadRequest(
-                "This visit is not pending."
+                "This visit is already completed."
             );
         }
 
@@ -192,10 +194,10 @@ public class DoctorsController : Controller
             );
         }
 
-        if (visit.Status != VisitStatus.InProgress)
+        if (visit.Status == VisitStatus.Completed)
         {
             return BadRequest(
-                "This visit is not in progress."
+                "This visit is already completed."
             );
         }
 

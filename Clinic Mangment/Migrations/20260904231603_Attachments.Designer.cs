@@ -3,6 +3,7 @@ using System;
 using ClinicManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Clinic_Mangment.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260904231603_Attachments")]
+    partial class Attachments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,7 +236,7 @@ namespace Clinic_Mangment.Migrations
                     b.ToTable("Visits");
                 });
 
-            modelBuilder.Entity("ClinicManagement.Models.VisitAttachment", b =>
+            modelBuilder.Entity("VisitAttachment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -243,13 +246,11 @@ namespace Clinic_Mangment.Migrations
 
                     b.Property<string>("ContentType")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("FileName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("text");
 
                     b.Property<string>("FilePath")
                         .IsRequired()
@@ -261,15 +262,10 @@ namespace Clinic_Mangment.Migrations
                     b.Property<DateTime>("UploadedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("UploadedByUserId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("VisitId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UploadedByUserId");
 
                     b.HasIndex("VisitId");
 
@@ -344,21 +340,13 @@ namespace Clinic_Mangment.Migrations
                     b.Navigation("Specialty");
                 });
 
-            modelBuilder.Entity("ClinicManagement.Models.VisitAttachment", b =>
+            modelBuilder.Entity("VisitAttachment", b =>
                 {
-                    b.HasOne("ClinicManagement.Models.User", "UploadedByUser")
-                        .WithMany()
-                        .HasForeignKey("UploadedByUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ClinicManagement.Models.Visit", "Visit")
                         .WithMany("Attachments")
                         .HasForeignKey("VisitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("UploadedByUser");
 
                     b.Navigation("Visit");
                 });

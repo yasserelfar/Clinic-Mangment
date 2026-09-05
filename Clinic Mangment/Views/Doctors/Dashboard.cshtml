@@ -32,6 +32,7 @@
                         <th>Visit #</th>
                         <th>Patient</th>
                         <th>Specialty</th>
+                        <th>Status</th>
                         <th>Created At</th>
                         <th></th>
                     </tr>
@@ -48,8 +49,14 @@
                             <td class="idh-patient-name">@visit.Patient.Name</td>
 
                             <td><span class="idh-specialty-pill">@visit.Specialty.Name</span></td>
-
+                            <td>
+                                <span class="idh-status-pill @visit.Status.ToString().ToLowerInvariant()">
+                                    @visit.Status
+                                </span>
+                            </td>
                             <td class="idh-muted">@visit.CreatedAt.ToLocalTime()</td>
+
+                            
 
                             <td>
                                 <a asp-controller="Doctors"

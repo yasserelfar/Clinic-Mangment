@@ -30,4 +30,6 @@ public class Visit
 
     public ICollection<Prescription> Prescriptions { get; set; }
         = new List<Prescription>();
+    public ICollection<VisitAttachment> Attachments { get; set; }
+  = new List<VisitAttachment>();
 }

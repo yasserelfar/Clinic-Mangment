@@ -28,115 +28,1211 @@
         </a>
     </div>
 
+
+    <!-- ========================= -->
     <!-- Patient Information -->
+    <!-- ========================= -->
+
     <div class="idh-panel">
+
         <div class="idh-panel-header">
             <h2>Patient Information</h2>
         </div>
 
         <div class="idh-result-grid">
+
             <div>
                 <span class="idh-result-label">Name</span>
-                <span class="idh-result-value">@Model.Patient.Name</span>
+
+                <span class="idh-result-value">
+                    @Model.Patient.Name
+                </span>
             </div>
+
+
             <div>
                 <span class="idh-result-label">Phone</span>
-                <span class="idh-result-value">@Model.Patient.Phone</span>
+
+                <span class="idh-result-value">
+                    @Model.Patient.Phone
+                </span>
             </div>
+
+
             <div>
                 <span class="idh-result-label">Gender</span>
+
                 <span class="idh-gender-pill @(Model.Patient.Gender == "Female" ? "female" : "male")">
                     @Model.Patient.Gender
                 </span>
             </div>
+
+
             <div>
                 <span class="idh-result-label">Date of Birth</span>
-                <span class="idh-result-value">@Model.Patient.DateOfBirth.ToString("dd/MM/yyyy")</span>
+
+                <span class="idh-result-value">
+                    @Model.Patient.DateOfBirth.ToString("dd/MM/yyyy")
+                </span>
             </div>
+
+
             <div>
                 <span class="idh-result-label">Address</span>
+
                 <span class="idh-result-value">
+
                     @(string.IsNullOrWhiteSpace(Model.Patient.Address)
                         ? "Not provided"
                         : Model.Patient.Address)
+
                 </span>
             </div>
+
         </div>
+
     </div>
 
+
+    <!-- ========================= -->
     <!-- Visit Information -->
+    <!-- ========================= -->
+
     <div class="idh-panel">
+
         <div class="idh-panel-header">
             <h2>Visit Information</h2>
         </div>
 
         <div class="idh-result-grid">
+
             <div>
                 <span class="idh-result-label">Specialty</span>
-                <span class="idh-specialty-pill">@Model.Specialty.Name</span>
+
+                <span class="idh-specialty-pill">
+                    @Model.Specialty.Name
+                </span>
             </div>
+
+
             <div>
                 <span class="idh-result-label">Visit Status</span>
-                <span class="idh-status-pill @statusClass">@Model.Status</span>
+
+                <span class="idh-status-pill @statusClass">
+                    @Model.Status
+                </span>
             </div>
+
+
             <div>
                 <span class="idh-result-label">Started At</span>
+
                 <span class="idh-result-value">
+
                     @if (Model.StartedAt.HasValue)
                     {
                         @Model.StartedAt.Value.ToLocalTime()
                     }
                     else
                     {
-                        <span class="idh-muted">Not started</span>
+                        <span class="idh-muted">
+                            Not started
+                        </span>
                     }
+
                 </span>
             </div>
+
         </div>
+
     </div>
 
+
+    <!-- ========================= -->
     <!-- Diagnosis -->
+    <!-- ========================= -->
+
     <div class="idh-form-card">
+
         <div class="idh-panel-header" style="margin-bottom: 20px;">
             <h2>Diagnosis</h2>
         </div>
 
-        <form asp-controller="Visits"
+
+        <form asp-controller="Doctors"
               asp-action="Complete"
               method="post">
 
             @Html.AntiForgeryToken()
 
-            <input type="hidden" name="visitId" value="@Model.Id" />
+
+            <input type="hidden"
+                   name="visitId"
+                   value="@Model.Id" />
+
 
             <div class="idh-field">
-                <label for="diagnosisText">Diagnosis</label>
+
+                <label for="diagnosisText">
+                    Diagnosis
+                </label>
+
                 <textarea id="diagnosisText"
                           name="diagnosisText"
                           rows="5"
                           placeholder="Enter patient's diagnosis..."
                           required></textarea>
+
             </div>
 
+
             <div class="idh-field">
-                <label for="notes">Notes</label>
+
+                <label for="notes">
+                    Notes
+                </label>
+
                 <textarea id="notes"
                           name="notes"
                           rows="4"
                           placeholder="Additional notes (optional)..."></textarea>
+
             </div>
 
+
             <div class="idh-form-actions">
+
                 <a asp-controller="Doctors"
                    asp-action="Dashboard"
-                   class="idh-btn-secondary">
+                   class="idh-submit-btn">
                     Cancel
                 </a>
 
-                <button type="submit" class="idh-submit-btn">Complete Visit</button>
+
+                <button type="submit"
+                        class="idh-submit-btn">
+                    Complete Visit
+                </button>
+
             </div>
 
         </form>
+
+    </div>
+       <!-- Attachments -->
+@if (Model.Attachments != null && Model.Attachments.Any())
+{
+    <div class="idh-attachments-grid">
+
+        @foreach (var attachment in Model.Attachments)
+        {
+            var isPdf = attachment.ContentType
+                .Equals(
+                    "application/pdf",
+                    StringComparison.OrdinalIgnoreCase
+                );
+
+            <div class="idh-attachment-card">
+
+                <div class="idh-attachment-icon @(isPdf ? "pdf" : "image")">
+                    @if (isPdf)
+                    {
+                        <span class="idh-attachment-icon-text">PDF</span>
+                    }
+                    else
+                    {
+                        <span class="idh-attachment-icon-text">IMG</span>
+                    }
+                </div>
+
+                <div class="idh-attachment-info">
+
+                    <div class="idh-attachment-name"
+                         title="@attachment.FileName">
+                        @attachment.FileName
+                    </div>
+
+                    <div class="idh-attachment-meta">
+                        @(Math.Round(
+                            attachment.FileSize / 1024.0 / 1024.0,
+                            2
+                        )) MB
+
+                        <span>•</span>
+
+                        @attachment.UploadedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+                    </div>
+
+                </div>
+
+              <div class="idh-attachment-actions">
+
+    <a href="@attachment.FilePath"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="idh-attachment-view">
+        View
+    </a>
+
+    <button type="button"
+            class="idh-attachment-delete"
+            data-id="@attachment.Id">
+        Delete
+    </button>
+
+</div>
+
+            </div>
+        }
+
+    </div>
+}
+else
+{
+    <div class="idh-attachments-empty">
+
+        <div class="idh-empty-icon">
+            +
+        </div>
+
+        <div>
+
+            <div class="idh-empty-title">
+                No medical attachments
+            </div>
+
+            <div class="idh-empty-text">
+                X-Rays, analyses and medical reports uploaded
+                for this visit will appear here.
+            </div>
+
+        </div>
+
+    </div>
+}
+
+    <!-- ========================= -->
+    <!-- Medical Attachments -->
+    <!-- ========================= -->
+
+    <div class="idh-result-card">
+
+        <div class="idh-result-title">
+            Medical Attachments
+        </div>
+
+
+        <form asp-controller="Visits"
+              asp-action="UploadAttachment"
+              method="post"
+              enctype="multipart/form-data"
+              id="attachmentForm">
+
+            @Html.AntiForgeryToken()
+
+
+            <input type="hidden"
+                   name="visitId"
+                   value="@Model.Id" />
+
+
+            <!-- Upload Area -->
+
+            <div class="idh-upload-area"
+                 id="uploadArea">
+
+                <div class="idh-upload-icon">
+                    ↑
+                </div>
+
+
+                <div class="idh-upload-title">
+                    Drop medical files here
+                </div>
+
+
+                <div class="idh-upload-subtitle">
+                    or click to browse from your computer
+                </div>
+
+
+                <div class="idh-upload-hint">
+                    JPG, JPEG, PNG or PDF · Maximum 10 MB per file
+                </div>
+
+
+                <input type="file"
+                       id="fileInput"
+                       name="files"
+                       accept=".jpg,.jpeg,.png,.pdf"
+                       multiple
+                       hidden />
+
+            </div>
+
+
+            <!-- File Preview -->
+
+            <div id="filePreview"
+                 class="idh-file-preview">
+            </div>
+
+
+            <!-- Upload Button -->
+
+            <div class="d-flex justify-content-end mt-3">
+
+                <button type="submit"
+                        id="uploadButton"
+                        class="btn btn-primary"
+                        disabled>
+
+                    Upload Files
+
+                </button>
+
+            </div>
+
+        </form>
+
     </div>
 
 </div>
+
+@section Scripts {
+
+<script>
+
+    const uploadArea =
+        document.getElementById("uploadArea");
+
+    const fileInput =
+        document.getElementById("fileInput");
+
+    const filePreview =
+        document.getElementById("filePreview");
+
+    const uploadButton =
+        document.getElementById("uploadButton");
+
+    const attachmentForm =
+        document.getElementById("attachmentForm");
+
+    const maxFileSize =
+        10 * 1024 * 1024;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "application/pdf"
+    ];
+
+    let selectedFiles = [];
+
+
+    // =========================================
+    // CLICK TO SELECT
+    // =========================================
+
+    uploadArea.addEventListener("click", function () {
+
+        fileInput.click();
+
+    });
+
+
+    // =========================================
+    // FILE INPUT CHANGE
+    // =========================================
+
+    fileInput.addEventListener("change", function () {
+
+        addFiles(
+            Array.from(fileInput.files)
+        );
+
+    });
+
+
+    // =========================================
+    // ADD FILES
+    // =========================================
+
+    function addFiles(files) {
+
+        for (const file of files) {
+
+            if (!allowedTypes.includes(file.type)) {
+
+                alert(
+                    file.name +
+                    " is not a supported file type."
+                );
+
+                continue;
+            }
+
+
+            if (file.size > maxFileSize) {
+
+                alert(
+                    file.name +
+                    " exceeds the 10 MB limit."
+                );
+
+                continue;
+            }
+
+
+            const alreadyExists =
+                selectedFiles.some(
+                    existingFile =>
+                        existingFile.name === file.name &&
+                        existingFile.size === file.size &&
+                        existingFile.lastModified ===
+                        file.lastModified
+                );
+
+
+            if (alreadyExists) {
+                continue;
+            }
+
+
+            selectedFiles.push(file);
+        }
+
+
+        updateFileInput();
+
+        renderPreview();
+
+    }
+
+
+    // =========================================
+    // UPDATE REAL FILE INPUT
+    // =========================================
+
+    function updateFileInput() {
+
+        const dataTransfer =
+            new DataTransfer();
+
+
+        selectedFiles.forEach(function (file) {
+
+            dataTransfer.items.add(file);
+
+        });
+
+
+        fileInput.files =
+            dataTransfer.files;
+
+    }
+
+
+    // =========================================
+    // RENDER PREVIEW
+    // =========================================
+
+    function renderPreview() {
+
+        filePreview.innerHTML = "";
+
+
+        selectedFiles.forEach(
+            function (file, index) {
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "idh-preview-card";
+
+
+                // Image preview
+
+                if (file.type.startsWith("image/")) {
+
+                    const image =
+                        document.createElement("img");
+
+                    image.className =
+                        "idh-preview-image";
+
+                    image.src =
+                        URL.createObjectURL(file);
+
+                    card.appendChild(image);
+
+                }
+
+
+                // PDF preview
+
+                else {
+
+                    const pdf =
+                        document.createElement("div");
+
+                    pdf.className =
+                        "idh-preview-pdf";
+
+                    pdf.textContent =
+                        "PDF";
+
+                    card.appendChild(pdf);
+
+                }
+
+
+                // File information
+
+                const info =
+                    document.createElement("div");
+
+                info.className =
+                    "idh-preview-info";
+
+
+                const name =
+                    document.createElement("div");
+
+                name.className =
+                    "idh-preview-name";
+
+                name.textContent =
+                    file.name;
+
+
+                const size =
+                    document.createElement("div");
+
+                size.className =
+                    "idh-preview-size";
+
+                size.textContent =
+                    formatFileSize(file.size);
+
+
+                info.appendChild(name);
+
+                info.appendChild(size);
+
+                card.appendChild(info);
+
+
+                // =================================
+                // X BUTTON
+                // =================================
+
+                const removeButton =
+                    document.createElement("button");
+
+                removeButton.type =
+                    "button";
+
+                removeButton.className =
+                    "idh-preview-remove";
+
+                removeButton.textContent =
+                    "×";
+
+
+                removeButton.addEventListener(
+                    "click",
+                    function (e) {
+
+                        e.preventDefault();
+
+                        e.stopPropagation();
+
+
+                        selectedFiles.splice(
+                            index,
+                            1
+                        );
+
+
+                        updateFileInput();
+
+                        renderPreview();
+
+                    }
+                );
+
+
+                card.appendChild(
+                    removeButton
+                );
+
+
+                filePreview.appendChild(
+                    card
+                );
+
+            }
+        );
+
+
+        uploadButton.disabled =
+            selectedFiles.length === 0;
+
+    }
+
+
+    // =========================================
+    // DRAG OVER
+    // =========================================
+
+    uploadArea.addEventListener(
+        "dragover",
+        function (e) {
+
+            e.preventDefault();
+
+            uploadArea.classList.add(
+                "dragover"
+            );
+
+        }
+    );
+
+
+    // =========================================
+    // DRAG LEAVE
+    // =========================================
+
+    uploadArea.addEventListener(
+        "dragleave",
+        function () {
+
+            uploadArea.classList.remove(
+                "dragover"
+            );
+
+        }
+    );
+
+
+    // =========================================
+    // DROP
+    // =========================================
+
+    uploadArea.addEventListener(
+        "drop",
+        function (e) {
+
+            e.preventDefault();
+
+            uploadArea.classList.remove(
+                "dragover"
+            );
+
+
+            const droppedFiles =
+                Array.from(
+                    e.dataTransfer.files
+                );
+
+
+            addFiles(
+                droppedFiles
+            );
+
+        }
+    );
+
+
+    // =========================================
+    // AJAX UPLOAD
+    // =========================================
+
+    attachmentForm.addEventListener(
+        "submit",
+        async function (e) {
+
+            // IMPORTANT:
+            // Prevent normal form submission
+            e.preventDefault();
+
+
+            if (selectedFiles.length === 0) {
+
+                return;
+
+            }
+
+
+            uploadButton.disabled =
+                true;
+
+            uploadButton.textContent =
+                "Uploading...";
+
+
+            const formData =
+                new FormData(
+                    attachmentForm
+                );
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        attachmentForm.action,
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok ||
+                    !result.success) {
+
+                    throw new Error(
+                        result.message ||
+                        "Upload failed."
+                    );
+
+                }
+
+
+                // =================================
+                // ADD UPLOADED FILES TO PAGE
+                // =================================
+
+                result.files.forEach(
+                    function (file) {
+
+                        addUploadedAttachment(
+                            file
+                        );
+
+                    }
+                );
+
+
+                // =================================
+                // CLEAR SELECTED FILES
+                // =================================
+
+                selectedFiles = [];
+
+                fileInput.value = "";
+
+                filePreview.innerHTML = "";
+
+
+                uploadButton.disabled =
+                    true;
+
+                uploadButton.textContent =
+                    "Upload Files";
+
+
+            }
+            catch (error) {
+
+                console.error(error);
+
+
+                alert(
+                    error.message ||
+                    "Something went wrong while uploading."
+                );
+
+
+                uploadButton.disabled =
+                    false;
+
+                uploadButton.textContent =
+                    "Upload Files";
+
+            }
+
+        }
+    );
+
+
+    // =========================================
+    // ADD NEW ATTACHMENT TO EXISTING GRID
+    // =========================================
+
+    function addUploadedAttachment(file) {
+
+        // Remove empty message
+
+        const emptyMessage =
+            document.querySelector(
+                ".idh-attachments-empty"
+            );
+
+
+        if (emptyMessage) {
+
+            emptyMessage.remove();
+
+        }
+
+
+        // Find existing grid
+
+        let grid =
+            document.querySelector(
+                ".idh-attachments-grid"
+            );
+
+
+        // If no grid exists, create one
+
+        if (!grid) {
+
+            grid =
+                document.createElement("div");
+
+            grid.className =
+                "idh-attachments-grid";
+
+
+            const uploadCard =
+                document.querySelector(
+                    ".idh-result-card"
+                );
+
+
+            uploadCard.parentNode.insertBefore(
+                grid,
+                uploadCard
+            );
+
+        }
+
+
+        const isPdf =
+            file.contentType.toLowerCase() ===
+            "application/pdf";
+
+
+        // =================================
+        // CARD
+        // =================================
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "idh-attachment-card";
+
+
+        // =================================
+        // ICON
+        // =================================
+
+        const icon =
+            document.createElement("div");
+
+        icon.className =
+            "idh-attachment-icon " +
+            (isPdf ? "pdf" : "image");
+
+
+        const iconText =
+            document.createElement("span");
+
+        iconText.className =
+            "idh-attachment-icon-text";
+
+        iconText.textContent =
+            isPdf ? "PDF" : "IMG";
+
+
+        icon.appendChild(
+            iconText
+        );
+
+
+        card.appendChild(
+            icon
+        );
+
+
+        // =================================
+        // INFO
+        // =================================
+
+        const info =
+            document.createElement("div");
+
+        info.className =
+            "idh-attachment-info";
+
+
+        const name =
+            document.createElement("div");
+
+        name.className =
+            "idh-attachment-name";
+
+        name.title =
+            file.fileName;
+
+        name.textContent =
+            file.fileName;
+
+
+        const meta =
+            document.createElement("div");
+
+        meta.className =
+            "idh-attachment-meta";
+
+        meta.innerHTML =
+            formatFileSize(
+                file.fileSize
+            ) +
+            " <span>•</span> " +
+            file.uploadedAt;
+
+
+        info.appendChild(name);
+
+        info.appendChild(meta);
+
+
+        card.appendChild(info);
+
+
+        // =================================
+        // VIEW BUTTON
+        // =================================
+
+        const view =
+            document.createElement("a");
+
+        view.href =
+            file.filePath;
+
+        view.target =
+            "_blank";
+
+        view.rel =
+            "noopener noreferrer";
+
+        view.className =
+            "idh-attachment-view";
+
+        view.textContent =
+            "View";
+
+
+        card.appendChild(
+            view
+        );
+
+
+        // Add card to grid
+
+        grid.appendChild(
+            card
+        );
+
+    }
+
+
+    // =========================================
+    // FORMAT FILE SIZE
+    // =========================================
+
+    function formatFileSize(bytes) {
+
+        if (bytes < 1024) {
+
+            return bytes + " B";
+
+        }
+
+
+        if (bytes < 1024 * 1024) {
+
+            return (
+                bytes / 1024
+            ).toFixed(1) +
+            " KB";
+
+        }
+
+
+        return (
+            bytes /
+            (1024 * 1024)
+        ).toFixed(2) +
+        " MB";
+
+    }
+document.addEventListener("click", async function (e) {
+
+    const deleteButton =
+        e.target.closest(".idh-attachment-delete");
+
+    if (!deleteButton) {
+        return;
+    }
+
+    const attachmentId =
+        deleteButton.dataset.id;
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this attachment?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    deleteButton.disabled = true;
+
+    deleteButton.textContent = "Deleting...";
+
+
+    const token =
+        document.querySelector(
+            'input[name="__RequestVerificationToken"]'
+        ).value;
+
+
+    const formData =
+        new FormData();
+
+    formData.append(
+        "id",
+        attachmentId
+    );
+
+    formData.append(
+        "__RequestVerificationToken",
+        token
+    );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/Visits/DeleteAttachment",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok ||
+            !result.success) {
+
+            throw new Error(
+                result.message ||
+                "Delete failed."
+            );
+
+        }
+
+
+        // Remove the card immediately
+
+        const card =
+            deleteButton.closest(
+                ".idh-attachment-card"
+            );
+
+
+        if (card) {
+            card.remove();
+        }
+
+
+        // If no attachments remain,
+        // show empty message
+
+        const grid =
+            document.querySelector(
+                ".idh-attachments-grid"
+            );
+
+
+        if (grid &&
+            grid.children.length === 0) {
+
+            grid.remove();
+
+
+            const emptyMessage =
+                document.createElement("div");
+
+            emptyMessage.className =
+                "idh-attachments-empty";
+
+            emptyMessage.innerHTML = `
+                <div class="idh-empty-icon">
+                    +
+                </div>
+
+                <div>
+                    <div class="idh-empty-title">
+                        No medical attachments
+                    </div>
+
+                    <div class="idh-empty-text">
+                        X-Rays, analyses and medical reports uploaded
+                        for this visit will appear here.
+                    </div>
+                </div>
+            `;
+
+
+            const uploadCard =
+                document.querySelector(
+                    ".idh-result-card"
+                );
+
+
+            uploadCard.parentNode.insertBefore(
+                emptyMessage,
+                uploadCard
+            );
+        }
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            error.message ||
+            "Something went wrong while deleting."
+        );
+
+
+        deleteButton.disabled = false;
+
+        deleteButton.textContent =
+            "Delete";
+    }
+
+});
+</script>
+
+}

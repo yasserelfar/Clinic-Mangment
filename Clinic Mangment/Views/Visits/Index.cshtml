@@ -20,7 +20,7 @@
             <h1>Visits</h1>
             <div class="idh-subtitle">Integrated Diagnostics Holdings &middot; Clinic Management</div>
         </div>
-        <a class="idh-add-btn" asp-action="Create">Add Visit</a>
+        <a class="idh-add-btn" asp-action="Search" asp-controller="Patients">Add Visit</a>
     </div>
 
     @if (!Model.Any())

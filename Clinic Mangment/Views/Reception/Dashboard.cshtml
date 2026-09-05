@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Reception Dashboard";
 }
-
+@await Html.PartialAsync("_ToastTrigger")
 <div class="idh-dashboard">
 
     <div class="idh-header">
@@ -114,7 +114,7 @@
 
         <div class="idh-quick-links">
             <a asp-controller="Patients" asp-action="Search" class="idh-add-btn">New Visit</a>
-            <a asp-controller="Patients" asp-action="Index" class="idh-btn-secondary">Patients</a>
+            <a asp-controller="Patients" asp-action="Index" class="idh-add-btn">Patients</a>
         </div>
     </div>
 

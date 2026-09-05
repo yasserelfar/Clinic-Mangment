@@ -4,7 +4,7 @@
    ========================================================================== */
 
 :root {
-    --idh-navy: #0b2545;
+    --idh-navy: rgba(191, 30, 46, 0.9);
     --idh-navy-light: #13355e;
     --idh-teal: #00a99d;
     --idh-teal-light: #e6f7f6;
@@ -13,17 +13,27 @@
     --idh-border: #e3e8ee;
 }
 
+.idh-navbar-logo {
+    width: 30px;
+    height: 30px;
+    /*    border-radius: 50%;*/
+    /*    background: #fff;*/
+    display: inline-block;
+    margin-right: 8px;
+}
 /* Page wrapper */
+
 .idh-dashboard,
 .idh-form-page {
-    font-family: 'Segoe UI', 'Poppins', Tahoma, sans-serif;
+    font-family: "Segoe UI", "Poppins", Tahoma, sans-serif;
     color: var(--idh-text);
     padding: 24px;
     background: var(--idh-gray);
     border-radius: 16px;
 }
-
 /* Header */
+
+
 .idh-header {
     display: flex;
     align-items: center;
@@ -59,6 +69,10 @@
         white-space: nowrap;
     }
 
+
+.idh-attachment-icon-text {
+    color:#fff;
+}
 /* Section title */
 .idh-section-title {
     display: flex;
@@ -74,12 +88,12 @@
         content: "";
         width: 6px;
         height: 22px;
-        background: var(--idh-teal);
+        background: var(--idh-navy);
         border-radius: 4px;
         display: inline-block;
     }
-
 /* Empty state */
+
 .idh-empty {
     background: #fff;
     border: 1px dashed var(--idh-border);
@@ -89,8 +103,8 @@
     color: #6b7280;
     font-size: 15px;
 }
-
 /* Card wrapper (tables, panels) */
+
 .idh-card {
     background: #fff;
     border-radius: 14px;
@@ -98,8 +112,8 @@
     box-shadow: 0 2px 10px rgba(11, 37, 69, 0.06);
     border: 1px solid var(--idh-border);
 }
-
 /* Table */
+
 table.idh-table {
     width: 100%;
     border-collapse: collapse;
@@ -141,8 +155,8 @@ table.idh-table {
     color: #6b7280;
     font-size: 13.5px;
 }
-
 /* Pills (specialty, gender, status, etc.) */
+
 .idh-specialty-pill {
     display: inline-block;
     background: var(--idh-teal-light);
@@ -170,8 +184,8 @@ table.idh-table {
         background: var(--idh-teal-light);
         color: var(--idh-teal);
     }
-
 /* Buttons */
+
 .idh-open-btn {
     display: inline-block;
     background: var(--idh-navy);
@@ -192,8 +206,8 @@ table.idh-table {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: var(--idh-teal);
-    color: #fff !important;
+    background: var(--idh-navy);
+    color: #fff;
     font-size: 14px;
     font-weight: 600;
     padding: 10px 20px;
@@ -204,7 +218,8 @@ table.idh-table {
 }
 
     .idh-add-btn:hover {
-        background: #00c2b3;
+        background: #ffff;
+        color: var(--idh-navy);
     }
 
     .idh-add-btn::before {
@@ -228,22 +243,24 @@ table.idh-table {
 }
 
     .idh-submit-btn:hover {
-        background: var(--idh-teal);
+        background: #ffff;
+        color: var(--idh-navy)
     }
-
 /* Search result panel */
+
 .idh-result-card {
     background: #fff;
+    /*    width:80%;*/
     border-radius: 14px;
     border: 1px solid var(--idh-border);
     box-shadow: 0 2px 10px rgba(11, 37, 69, 0.06);
     padding: 28px 32px;
-    max-width: 640px;
+    /*    max-width: 640px;*/
     margin-top: 20px;
 }
 
     .idh-result-card.idh-result-found {
-        border-left: 4px solid var(--idh-teal);
+        border-left: 4px solid var(--idh-navy);
     }
 
     .idh-result-card.idh-result-empty {
@@ -286,15 +303,15 @@ table.idh-table {
     font-weight: 600;
     color: var(--idh-text);
 }
-
 /* Form fields */
+
 .idh-form-card {
     background: #fff;
     border-radius: 14px;
     border: 1px solid var(--idh-border);
     box-shadow: 0 2px 10px rgba(11, 37, 69, 0.06);
     padding: 32px;
-    max-width: 640px;
+    /*    max-width: 640px;*/
 }
 
 .idh-field {
@@ -340,8 +357,8 @@ table.idh-table {
             color: #9aa4b2;
             cursor: not-allowed;
         }
-
 /* Status pill (visit status, etc.) */
+
 .idh-status-pill {
     display: inline-block;
     font-weight: 600;
@@ -382,8 +399,8 @@ table.idh-table {
         grid-template-columns: 1fr;
     }
 }
-
 /* Home page hero */
+
 .idh-hero {
     background: linear-gradient(135deg, var(--idh-navy) 0%, var(--idh-navy-light) 100%);
     color: #fff;
@@ -398,7 +415,7 @@ table.idh-table {
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: var(--idh-teal);
+    color: #ffff;
     margin-bottom: 10px;
 }
 
@@ -415,8 +432,8 @@ table.idh-table {
     color: #c3d1e3;
     line-height: 1.6;
 }
-
 /* Quick action cards */
+
 .idh-action-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -466,13 +483,12 @@ table.idh-table {
     color: #6b7280;
     line-height: 1.5;
 }
-
 /* ==========================================================================
    Layout — navbar & footer
    ========================================================================== */
 
 body {
-    font-family: 'Segoe UI', 'Poppins', Tahoma, sans-serif;
+    font-family: "Segoe UI", "Poppins", Tahoma, sans-serif;
     background: var(--idh-gray);
     margin: 0;
 }
@@ -498,7 +514,7 @@ body {
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: var(--idh-teal);
+            background: #ffff;
             display: inline-block;
         }
 
@@ -552,7 +568,6 @@ body {
     min-height: 70vh;
     padding-top: 4px;
 }
-
 /* ==========================================================================
    Admin forms — secondary buttons, validation, login screen
    ========================================================================== */
@@ -560,21 +575,25 @@ body {
 .idh-btn-secondary {
     display: inline-block;
     background: #fff;
-    color: var(--idh-navy) !important;
+    color: var(--idh-navy);
     font-size: 13.5px;
     font-weight: 600;
     padding: 9px 18px;
-    border: 1px solid var(--idh-border);
+    /*    border: 1px solid var(--idh-border);*/
     border-radius: 8px;
     text-decoration: none;
     cursor: pointer;
     transition: background 0.15s ease, border-color 0.15s ease;
 }
 
-    .idh-btn-secondary:hover {
-        background: var(--idh-gray);
-        border-color: #c7d0db;
-    }
+a {
+    text-decoration: none;
+}
+
+.idh-btn-secondary:hover {
+    background: #fff;
+    border-color: var(--idh-navy);
+}
 
 .idh-form-actions {
     display: flex;
@@ -600,8 +619,8 @@ body {
     .idh-validation-summary:empty {
         display: none;
     }
-
 /* Standalone login screen */
+
 .idh-login-page {
     min-height: 80vh;
     display: flex;
@@ -631,7 +650,7 @@ body {
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background: var(--idh-teal);
+        background: var(--idh-navy);
         display: inline-block;
     }
 
@@ -660,7 +679,6 @@ body {
     width: 100%;
     text-align: center;
 }
-
 /* ==========================================================================
    Admin list pages — badges, small action buttons, empty states
    ========================================================================== */
@@ -688,8 +706,8 @@ body {
     .idh-btn-primary:hover {
         background: #00c2b3;
     }
-
 /* Small row-action buttons */
+
 .idh-btn-sm {
     display: inline-block;
     font-size: 12.5px;
@@ -769,8 +787,8 @@ body {
 .idh-cell-right {
     text-align: right;
 }
-
 /* Role / status / count badges */
+
 .idh-role-badge {
     display: inline-block;
     font-weight: 600;
@@ -826,8 +844,8 @@ body {
     padding: 4px 11px;
     border-radius: 999px;
 }
-
 /* Alert banner (TempData errors) */
+
 .idh-alert-error {
     color: #b91c1c;
     background: #fdeaea;
@@ -837,8 +855,8 @@ body {
     font-size: 14px;
     margin-bottom: 20px;
 }
-
 /* Empty state with action button */
+
 .idh-empty-action {
     background: #fff;
     border: 1px dashed var(--idh-border);
@@ -859,7 +877,6 @@ body {
         color: #6b7280;
         font-size: 14px;
     }
-
 /* ==========================================================================
    Admin list pages — alerts, badges, row actions, empty states
    ========================================================================== */
@@ -888,8 +905,8 @@ body {
     padding: 14px 18px;
     font-size: 14px;
 }
-
 /* Generic badge (role / status) */
+
 .idh-badge {
     display: inline-block;
     font-weight: 600;
@@ -923,13 +940,7 @@ body {
         background: var(--idh-gray);
         color: var(--idh-text);
     }
-
 /* Row action buttons */
-.idh-row-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-}
 
 .idh-btn-xs {
     display: inline-block;
@@ -980,17 +991,17 @@ body {
     }
 
         .idh-btn-xs.deactivate:hover {
-            background: #b45309;
-            color: #fff;
+            background: #a6a6a6;
+            color: var(--idh-navy);
         }
-
 /* Table cell alignment helper */
+
 .idh-table th.text-end,
 .idh-table td.text-end {
     text-align: right;
 }
-
 /* Empty state with CTA */
+
 .idh-empty-title {
     font-weight: 700;
     color: var(--idh-navy);
@@ -1001,7 +1012,6 @@ body {
 .idh-empty-desc {
     margin-bottom: 18px;
 }
-
 /* ==========================================================================
    Stat cards & recent-activity panel (dashboards)
    ========================================================================== */
@@ -1072,4 +1082,1740 @@ body {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
+}
+
+.timeline {
+    position: relative;
+    margin-left: 20px;
+    padding-left: 35px;
+}
+    /* الخط الأساسي */
+
+    .timeline::before {
+        content: "";
+        position: absolute;
+        left: 7px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--idh-navy);
+    }
+/* كل زيارة */
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.65s ease, transform 0.65s cubic-bezier(.22, 1, .36, 1);
+}
+    /* Visit 1, 3, 5... من اليمين */
+
+    .timeline-item:nth-child(odd) {
+        transform: translateX(80px);
+    }
+    /* Visit 2, 4, 6... من الشمال */
+
+    .timeline-item:nth-child(even) {
+        transform: translateX(-80px);
+    }
+    /* لما تدخل الشاشة */
+
+    .timeline-item.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+    }
+/* =========================
+   DOT
+========================= */
+
+.timeline-dot {
+    position: absolute;
+    left: -35px;
+    top: 5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--idh-navy);
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px var(--idh-navy);
+    transform: scale(0);
+    transition: transform 0.45s cubic-bezier(.34, 1.56, .64, 1), box-shadow 0.45s ease;
+}
+/* الـ dot يظهر مع الكارت */
+
+.timeline-item.show .timeline-dot {
+    transform: scale(1);
+    box-shadow: 0 0 0 2px var(--idh-navy), 0 0 0 7px rgba(11, 37, 69, 0.08);
+}
+/* =========================
+   CONTENT
+========================= */
+
+.timeline-content {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .timeline-content:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(11, 37, 69, 0.12);
+    }
+/* =========================
+   PENDING DOT
+========================= */
+
+.timeline-item:has(.idh-status-pill.pending) .timeline-dot {
+    animation: none;
+}
+
+.timeline-item.show:has(.idh-status-pill.pending) .timeline-dot {
+    animation: timelinePulse 2s infinite;
+}
+
+@keyframes timelinePulse {
+
+    0% {
+        box-shadow: 0 0 0 2px var(--idh-navy), 0 0 0 7px rgba(11, 37, 69, 0.08);
+    }
+
+    50% {
+        box-shadow: 0 0 0 2px var(--idh-navy), 0 0 0 12px rgba(11, 37, 69, 0.02);
+    }
+
+    100% {
+        box-shadow: 0 0 0 2px var(--idh-navy), 0 0 0 7px rgba(11, 37, 69, 0.08);
+    }
+}
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    .timeline-item:nth-child(odd),
+    .timeline-item:nth-child(even) {
+        transform: translateY(60px);
+    }
+
+    .timeline-item.show {
+        transform: translateY(0);
+    }
+}
+/* =========================================================
+   STATUS-SPECIFIC DOTS
+   ========================================================= */
+
+.timeline-item:has(.idh-status-pill.pending) .timeline-dot {
+    background: #f59e0b;
+    box-shadow: 0 0 0 2px #f59e0b;
+}
+
+.timeline-item:has(.idh-status-pill.inprogress) .timeline-dot {
+    background: #3b82f6;
+    box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.timeline-item:has(.idh-status-pill.completed) .timeline-dot {
+    background: var(--idh-teal);
+    box-shadow: 0 0 0 2px var(--idh-teal);
+}
+/* =========================
+   REDUCED MOTION
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .timeline-item {
+        opacity: 1;
+        visibility: visible;
+        transform: none !important;
+        transition: none;
+    }
+
+    .timeline-dot {
+        transform: scale(1);
+        transition: none;
+        animation: none !important;
+    }
+}
+/* ANIMATION */ /* ===== Dashboard entrance animations ===== */ /* IDH themed dashboards (Reception / Doctor) */
+
+.idh-stat-grid .idh-stat-card,
+.idh-panel {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: idhFadeUp 0.5s ease forwards;
+}
+
+    .idh-stat-grid .idh-stat-card:nth-child(1) {
+        animation-delay: 0.05s;
+    }
+
+    .idh-stat-grid .idh-stat-card:nth-child(2) {
+        animation-delay: 0.15s;
+    }
+
+    .idh-stat-grid .idh-stat-card:nth-child(3) {
+        animation-delay: 0.25s;
+    }
+
+.idh-panel {
+    animation-delay: 0.35s;
+}
+
+@keyframes idhFadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* table rows fade in one after another */
+
+.idh-table tbody tr {
+    opacity: 0;
+    animation: idhRowFadeIn 0.4s ease forwards;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+    .idh-table tbody tr:nth-child(1) {
+        animation-delay: 0.4s;
+    }
+
+    .idh-table tbody tr:nth-child(2) {
+        animation-delay: 0.46s;
+    }
+
+    .idh-table tbody tr:nth-child(3) {
+        animation-delay: 0.52s;
+    }
+
+    .idh-table tbody tr:nth-child(4) {
+        animation-delay: 0.58s;
+    }
+
+    .idh-table tbody tr:nth-child(5) {
+        animation-delay: 0.64s;
+    }
+
+    .idh-table tbody tr:nth-child(n /**/ +6) {
+        animation-delay: 0.7s;
+    }
+
+@keyframes idhRowFadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.idh-table tbody tr:hover {
+    transform: translateX(2px);
+}
+/* pending status pill: gentle attention pulse */
+
+.idh-status-pill.pending {
+    animation: idhPendingPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes idhPendingPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.35);
+    }
+
+    50% {
+        box-shadow: 0 0 0 5px rgba(234, 179, 8, 0);
+    }
+}
+/* Bootstrap-based Admin Dashboard cards */
+
+.card.shadow-sm {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: idhFadeUp 0.5s ease forwards;
+}
+
+.row.g-4 > [class*="col-"]:nth-child(1) .card {
+    animation-delay: 0.05s;
+}
+
+.row.g-4 > [class*="col-"]:nth-child(2) .card {
+    animation-delay: 0.12s;
+}
+
+.row.g-4 > [class*="col-"]:nth-child(3) .card {
+    animation-delay: 0.19s;
+}
+
+.row.g-4 > [class*="col-"]:nth-child(4) .card {
+    animation-delay: 0.26s;
+}
+
+.row.g-4 > [class*="col-"]:nth-child(5) .card {
+    animation-delay: 0.33s;
+}
+
+.row.g-4 > [class*="col-"]:nth-child(6) .card {
+    animation-delay: 0.40s;
+}
+
+.idh-submit-btn.btn {
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+    .idh-submit-btn.btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    }
+
+@media (prefers-reduced-motion: reduce) {
+    .idh-stat-card, .idh-panel, .idh-table tbody tr,
+    .card.shadow-sm, .idh-status-pill.pending {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+}
+/* ===== Level-up pack ===== */ /* --- Spotlight hover glow --- */
+
+.idh-stat-card, .idh-panel, .card.shadow-sm {
+    position: relative;
+    overflow: hidden;
+}
+
+    .idh-stat-card::after,
+    .card.shadow-sm::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(37, 99, 235, 0.14), transparent 60%);
+        opacity: 0;
+        transition: opacity 0.25s ease;
+        pointer-events: none;
+    }
+
+    .idh-stat-card.pending::after {
+        background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(234, 179, 8, 0.16), transparent 60%);
+    }
+
+    .idh-stat-card.completed::after {
+        background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(34, 197, 94, 0.16), transparent 60%);
+    }
+
+    .idh-stat-card:hover::after,
+    .card.shadow-sm:hover::after {
+        opacity: 1;
+    }
+/* --- Icon badges (IDH stat cards only) --- */
+
+.idh-stat-card {
+    padding-top: 44px;
+}
+
+    .idh-stat-card::before {
+        content: "";
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #2563eb;
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 12h4l2 7 4-16 2 9h6'/%3E%3C/svg%3E");
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 12h4l2 7 4-16 2 9h6'/%3E%3C/svg%3E");
+        -webkit-mask-size: 16px 16px;
+        mask-size: 16px 16px;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        opacity: 0;
+        transform: scale(0.4);
+        animation: idhIconPop 0.4s ease forwards 0.55s;
+    }
+
+    .idh-stat-card.pending::before {
+        background-color: #eab308;
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 3'/%3E%3C/svg%3E");
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 3'/%3E%3C/svg%3E");
+    }
+
+    .idh-stat-card.completed::before {
+        background-color: #22c55e;
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12l5 5 11-11'/%3E%3C/svg%3E");
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12l5 5 11-11'/%3E%3C/svg%3E");
+    }
+
+@keyframes idhIconPop {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+/* --- Ripple click effect --- */
+
+.idh-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.55);
+    transform: scale(0);
+    animation: idhRippleAnim 0.6s ease-out;
+    pointer-events: none;
+}
+
+@keyframes idhRippleAnim {
+    to {
+        transform: scale(2.6);
+        opacity: 0;
+    }
+}
+/* --- Scroll reveal (below-the-fold panels) --- */
+
+.idh-scroll-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+    .idh-scroll-reveal.idh-inview {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+@media (prefers-reduced-motion: reduce) {
+    .idh-stat-card::after, .card.shadow-sm::after,
+    .idh-stat-card::before, .idh-ripple,
+    .idh-scroll-reveal {
+        display: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+/* ===== Page transitions ===== */
+
+#idh-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #2563eb, #22c55e);
+    z-index: 9999;
+    opacity: 0;
+    transition: width 0.25s ease, opacity 0.3s ease;
+    pointer-events: none;
+}
+
+    #idh-progress-bar.active {
+        opacity: 1;
+    }
+
+@media (prefers-reduced-motion: no-preference) {
+    ::view-transition-old(idh-view) {
+        animation: idhViewOut 0.32s ease forwards;
+    }
+
+    ::view-transition-new(idh-view) {
+        animation: idhViewIn 0.32s ease forwards;
+    }
+}
+
+@keyframes idhViewOut {
+    to {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.99);
+    }
+}
+
+@keyframes idhViewIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.99);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+#idh-view {
+    view-transition-name: idh-view;
+    min-height: 60vh;
+}
+/* ===== Doctor select loading + fade-in ===== */
+
+.idh-select-wrap {
+    position: relative;
+}
+
+.idh-select-spinner {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    width: 16px;
+    height: 16px;
+    margin-top: -8px;
+    border: 2px solid rgba(37, 99, 235, 0.2);
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: idhSpin 0.6s linear infinite;
+}
+
+@keyframes idhSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.idh-fade-in {
+    animation: idhSelectFadeIn 0.35s ease;
+    width: 100%;
+}
+
+@keyframes idhSelectFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.idh-btn-loading {
+    opacity: 0.75;
+    cursor: not-allowed;
+    position: relative;
+}
+/* ===== Toast notifications ===== */
+
+#idh-toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.idh-toast {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 260px;
+    max-width: 360px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-left: 4px solid #22c55e;
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.idh-toast-in {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.idh-toast-out {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.idh-toast-error {
+    border-left-color: #ef4444;
+}
+
+.idh-toast-warning {
+    border-left-color: #eab308;
+}
+
+.idh-toast-icon::before {
+    content: "✓";
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.idh-toast-error .idh-toast-icon::before {
+    content: "!";
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+.idh-toast-warning .idh-toast-icon::before {
+    content: "!";
+    background: rgba(234, 179, 8, 0.15);
+    color: #eab308;
+}
+
+.idh-toast-text {
+    flex: 1;
+    font-size: 14px;
+    color: #1f2937;
+}
+
+.idh-toast-close {
+    background: none;
+    border: none;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    color: #9ca3af;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .idh-select-spinner {
+        animation: none;
+        border-top-color: rgba(37,99,235,0.5);
+    }
+
+    .idh-fade-in {
+        animation: none;
+        width: 100%;
+    }
+
+    .idh-toast {
+        transition: none;
+    }
+}
+/* =========================================
+   PATIENT EXAMINATION PAGE ANIMATIONS
+   ========================================= */
+
+.idh-form-page {
+    animation: pageFadeIn 0.6s ease both;
+}
+    /* ---------- Header ---------- */
+
+    .idh-form-page .idh-header {
+        animation: headerDrop 0.7s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+        .idh-form-page .idh-header h1 {
+            animation: titleReveal 0.7s ease 0.1s both;
+        }
+
+        .idh-form-page .idh-header .idh-subtitle {
+            animation: titleReveal 0.7s ease 0.2s both;
+        }
+
+        .idh-form-page .idh-header .idh-btn-secondary {
+            animation: buttonReveal 0.7s cubic-bezier(.22, 1, .36, 1) 0.25s both;
+        }
+    /* ---------- Panels ---------- */
+
+    .idh-form-page > .idh-panel:nth-of-type(1) {
+        animation: panelFromRight 0.75s cubic-bezier(.22, 1, .36, 1) 0.15s both;
+    }
+
+    .idh-form-page > .idh-panel:nth-of-type(2) {
+        animation: panelFromLeft 0.75s cubic-bezier(.22, 1, .36, 1) 0.3s both;
+    }
+    /* ---------- Diagnosis ---------- */
+
+    .idh-form-page > .idh-form-card {
+        animation: diagnosisReveal 0.8s cubic-bezier(.22, 1, .36, 1) 0.45s both;
+    }
+/* ---------- Panel Headers ---------- */
+
+.idh-panel-header h2 {
+    position: relative;
+    overflow: hidden;
+}
+
+    .idh-panel-header h2::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -5px;
+        width: 100%;
+        height: 2px;
+        background: var(--idh-navy);
+        transform: scaleX(0);
+        transform-origin: left;
+        animation: underlineReveal 0.6s ease 0.7s both;
+    }
+/* ---------- Information Items ---------- */
+
+.idh-result-grid > div {
+    opacity: 0;
+    animation: infoItemReveal 0.55s cubic-bezier(.22, 1, .36, 1) both;
+}
+/* Patient information */
+
+.idh-panel:nth-of-type(1) .idh-result-grid > div:nth-child(1) {
+    animation-delay: 0.45s;
+}
+
+.idh-panel:nth-of-type(1) .idh-result-grid > div:nth-child(2) {
+    animation-delay: 0.52s;
+}
+
+.idh-panel:nth-of-type(1) .idh-result-grid > div:nth-child(3) {
+    animation-delay: 0.59s;
+}
+
+.idh-panel:nth-of-type(1) .idh-result-grid > div:nth-child(4) {
+    animation-delay: 0.66s;
+}
+
+.idh-panel:nth-of-type(1) .idh-result-grid > div:nth-child(5) {
+    animation-delay: 0.73s;
+}
+/* Visit information */
+
+.idh-panel:nth-of-type(2) .idh-result-grid > div:nth-child(1) {
+    animation-delay: 0.55s;
+}
+
+.idh-panel:nth-of-type(2) .idh-result-grid > div:nth-child(2) {
+    animation-delay: 0.62s;
+}
+
+.idh-panel:nth-of-type(2) .idh-result-grid > div:nth-child(3) {
+    animation-delay: 0.69s;
+}
+/* ---------- Labels ---------- */
+
+.idh-result-label {
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.idh-result-grid > div:hover .idh-result-label {
+    color: var(--idh-navy);
+    transform: translateX(3px);
+}
+/* ---------- Values ---------- */
+
+.idh-result-value {
+    transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.idh-result-grid > div:hover .idh-result-value {
+    transform: translateX(4px);
+}
+/* ---------- Specialty Pill ---------- */
+
+.idh-specialty-pill {
+    display: inline-block;
+    animation: pillPop 0.6s cubic-bezier(.34, 1.56, .64, 1) 0.75s both;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .idh-specialty-pill:hover {
+        transform: translateY(-2px) scale(1.03);
+    }
+/* ---------- Status Pill ---------- */
+
+.idh-status-pill {
+    display: inline-block;
+    animation: pillPop 0.6s cubic-bezier(.34, 1.56, .64, 1) 0.82s both;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .idh-status-pill:hover {
+        transform: translateY(-2px) scale(1.04);
+    }
+    /* Pending */
+
+    .idh-status-pill.pending {
+        animation: pillPop 0.6s cubic-bezier(.34, 1.56, .64, 1) 0.82s both, statusPulse 2s ease-in-out 1.5s infinite;
+    }
+    /* In Progress */
+
+    .idh-status-pill.inprogress {
+        animation: pillPop 0.6s cubic-bezier(.34, 1.56, .64, 1) 0.82s both, statusPulse 1.5s ease-in-out 1.5s infinite;
+    }
+    /* Completed */
+
+    .idh-status-pill.completed {
+        animation: pillPop 0.6s cubic-bezier(.34, 1.56, .64, 1) 0.82s both;
+    }
+    /* Cancelled */
+
+    .idh-status-pill.cancelled {
+        animation: pillPop 0.6s cubic-bezier(.34, 1.56, .64, 1) 0.82s both;
+    }
+/* ---------- Gender Pill ---------- */
+
+.idh-gender-pill {
+    display: inline-block;
+    animation: pillPop 0.6s cubic-bezier(.34, 1.56, .64, 1) 0.65s both;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .idh-gender-pill:hover {
+        transform: scale(1.04);
+    }
+/* ---------- Diagnosis Card ---------- */
+
+.idh-form-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .idh-form-card:hover {
+        transform: translateY(-3px);
+    }
+/* ---------- Textareas ---------- */
+
+.idh-field {
+    animation: fieldReveal 0.6s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+    .idh-field:nth-of-type(1) {
+        animation-delay: 0.65s;
+    }
+
+    .idh-field:nth-of-type(2) {
+        animation-delay: 0.78s;
+    }
+
+    .idh-field label {
+        transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .idh-field:focus-within label {
+        color: var(--idh-navy);
+        transform: translateX(4px);
+    }
+
+    .idh-field textarea {
+        transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    }
+
+        .idh-field textarea:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(11, 37, 69, 0.10);
+        }
+/* ---------- Form Actions ---------- */
+
+.idh-form-actions {
+    animation: actionsReveal 0.65s cubic-bezier(.22, 1, .36, 1) 0.9s both;
+}
+
+    .idh-form-actions .idh-submit-btn {
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+        .idh-form-actions .idh-submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(11, 37, 69, 0.15);
+        }
+
+        .idh-form-actions .idh-submit-btn:active {
+            transform: translateY(0) scale(0.97);
+        }
+/* =========================================
+   KEYFRAMES
+   ========================================= */
+
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes headerDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes titleReveal {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes buttonReveal {
+    from {
+        opacity: 0;
+        transform: translateX(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes panelFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(70px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes panelFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-70px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes diagnosisReveal {
+    from {
+        opacity: 0;
+        transform: translateY(60px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes infoItemReveal {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fieldReveal {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes actionsReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pillPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.65);
+    }
+
+    70% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes underlineReveal {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes statusPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(11, 37, 69, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 0 7px rgba(11, 37, 69, 0.08);
+    }
+}
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    .idh-panel:nth-of-type(1),
+    .idh-panel:nth-of-type(2) {
+        animation-name: panelMobileReveal;
+    }
+
+    @keyframes panelMobileReveal {
+        from {
+            opacity: 0;
+            transform: translateY(35px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+/* =========================================
+   ACCESSIBILITY
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .idh-form-page,
+    .idh-form-page *,
+    .idh-form-page *::before,
+    .idh-form-page *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+/* =========================================
+   PATIENT EXAMINATION - ANIMATIONS
+   ========================================= */
+
+.idh-form-page {
+    animation: pageFadeIn 0.55s ease both;
+}
+
+/* ==========================================================================
+   LOGIN PAGE — Split layout + animated doctor illustration
+   ========================================================================== */
+
+html:has(.idh-split),
+body:has(.idh-split) {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+.idh-split {
+    display: flex;
+    min-height: 100vh;
+}
+
+.idh-split-left {
+    flex: 1 1 45%;
+    position: relative;
+    background: rgba(191, 30, 46, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+    .idh-split-left::before,
+    .idh-split-left::after {
+        content: "";
+        position: absolute;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        filter: blur(90px);
+        opacity: 0.25;
+        z-index: 0;
+    }
+
+    .idh-split-left::before {
+        background: #000;
+        top: -100px;
+        left: -100px;
+        animation: loginFloatBlob 12s ease-in-out infinite;
+    }
+
+    .idh-split-left::after {
+        background: #000;
+        bottom: -120px;
+        right: -80px;
+        animation: loginFloatBlob 14s ease-in-out infinite reverse;
+    }
+
+.idh-bot-wrap {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform-origin: center;
+    animation: loginBotIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards, loginBotFloat 4s ease-in-out infinite 1.2s;
+}
+
+.idh-bot-glow {
+    filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.35));
+}
+
+.idh-bot-eyes {
+    transition: transform 0.08s linear;
+}
+
+.idh-steth-tube {
+    stroke-dasharray: 260;
+    stroke-dashoffset: 260;
+    animation: loginDrawTube 1.4s ease forwards 0.6s;
+}
+
+.idh-steth-chest {
+    transform-origin: center;
+    animation: loginChestPulse 1.6s ease-in-out infinite 1.8s;
+}
+
+.idh-split-caption {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+    letter-spacing: 0.4px;
+    z-index: 1;
+    opacity: 0;
+    animation: loginFadeUp 0.6s ease forwards 1s;
+}
+
+.idh-split-right {
+    flex: 1 1 55%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.idh-split .idh-login-card {
+    width: 100%;
+    max-width: 380px;
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+    animation: loginCardIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+}
+
+    .idh-split .idh-login-brand,
+    .idh-split .idh-login-card h1,
+    .idh-split .idh-login-card .idh-subtitle,
+    .idh-split .idh-login-card .idh-validation-summary,
+    .idh-split .idh-login-card form {
+        opacity: 0;
+        transform: translateY(12px);
+        animation: loginFadeUp 0.5s ease forwards;
+    }
+
+.idh-split .idh-login-brand {
+    animation-delay: 0.3s;
+}
+
+.idh-split .idh-login-card h1 {
+    animation-delay: 0.4s;
+}
+
+.idh-split .idh-login-card .idh-subtitle {
+    animation-delay: 0.47s;
+}
+
+.idh-split .idh-login-card .idh-validation-summary {
+    animation-delay: 0.5s;
+}
+
+.idh-split .idh-login-card form {
+    animation-delay: 0.55s;
+}
+
+.idh-split .idh-dot {
+    display: inline-block;
+    animation: loginDotPulse 2s ease-in-out infinite;
+}
+
+.idh-split .idh-field input {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+    .idh-split .idh-field input:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+.idh-split .idh-submit-btn {
+    transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+    .idh-split .idh-submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
+        filter: brightness(1.05);
+    }
+
+    .idh-split .idh-submit-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+    }
+
+@keyframes loginFloatBlob {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(30px, 20px) scale(1.08);
+    }
+}
+
+@keyframes loginBotIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes loginBotFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes loginDrawTube {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes loginChestPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    15% {
+        transform: scale(1.15);
+    }
+
+    30% {
+        transform: scale(1);
+    }
+}
+
+@keyframes loginCardIn {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes loginFadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes loginDotPulse {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+    }
+
+    50% {
+        opacity: 0.75;
+        box-shadow: 0 0 0 6px rgba(37, 99, 235, 0);
+    }
+}
+
+@media (max-width: 860px) {
+    .idh-split-left {
+        display: none;
+    }
+
+    .idh-split-right {
+        flex: 1 1 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .idh-split-left::before,
+    .idh-split-left::after,
+    .idh-bot-wrap,
+    .idh-steth-chest,
+    .idh-steth-tube,
+    .idh-split-caption,
+    .idh-split .idh-login-card,
+    .idh-split .idh-login-brand,
+    .idh-split .idh-login-card h1,
+    .idh-split .idh-login-card .idh-subtitle,
+    .idh-split .idh-login-card .idh-validation-summary,
+    .idh-split .idh-login-card form,
+    .idh-split .idh-dot,
+    #idh-bot-eyes {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        stroke-dashoffset: 0 !important;
+    }
+}
+
+.idh-attachments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.idh-attachment-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+    .idh-attachment-card:hover {
+        border-color: #cbd5e1;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        transform: translateY(-2px);
+    }
+
+.idh-attachment-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+    .idh-attachment-icon.image {
+        background: var(--idh-navy);
+        color: #ffffff;
+    }
+
+    .idh-attachment-icon.pdf {
+        background: var(--idh-navy);
+        color: #ffff;
+    }
+
+.idh-attachment-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.idh-attachment-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1f2937;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.idh-attachment-meta {
+    margin-top: 5px;
+    display: flex;
+    gap: 7px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.idh-attachment-view {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    color: #374151;
+    background: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+    .idh-attachment-view:hover {
+        background: #f8fafc;
+        border-color: #9ca3af;
+        color: #111827;
+    }
+
+.idh-attachments-empty {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    padding: 22px;
+    background: #f8fafc;
+    border: 1px dashed #d1d5db;
+    border-radius: 12px;
+}
+.idh-attachment-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.idh-attachment-delete {
+    border: none;
+    background: transparent;
+    color: #dc3545;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+    .idh-attachment-delete:hover {
+        text-decoration: underline;
+    }
+
+.idh-empty-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #eef2f7;
+    color: #64748b;
+    font-size: 24px;
+
+    .idh-upload-area {
+        margin-top: 20px;
+        padding: 35px 20px;
+        border: 2px dashed #cbd5e1;
+        border-radius: 14px;
+        background: #f8fafc;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+        .idh-upload-area:hover {
+            border-color: #94a3b8;
+            background: #f1f5f9;
+        }
+
+        .idh-upload-area.dragover {
+            border-color: #2563eb;
+            background: #eff6ff;
+            transform: scale(1.01);
+        }
+
+    .idh-upload-icon {
+        width: 52px;
+        height: 52px;
+        margin: 0 auto 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #e8f1ff;
+        color: #2563eb;
+        font-size: 28px;
+        font-weight: 600;
+    }
+
+    .idh-upload-title {
+        font-size: 17px;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    .idh-upload-subtitle {
+        margin-top: 5px;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    .idh-upload-hint {
+        margin-top: 12px;
+        color: #94a3b8;
+        font-size: 12px;
+    }
+
+    .idh-file-preview {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .idh-preview-card {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        background: white;
+    }
+
+    .idh-preview-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        display: block;
+        background: #f8fafc;
+    }
+
+    .idh-preview-pdf {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fef2f2;
+        color: #dc2626;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .idh-preview-info {
+        padding: 12px;
+    }
+
+    .idh-preview-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1f2937;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .idh-preview-size {
+        margin-top: 4px;
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .idh-preview-remove {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 30px;
+        height: 30px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.65);
+        color: white;
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .idh-preview-remove:hover {
+            background: rgba(220, 38, 38, 0.9);
+        }
+
+    .idh-file-error {
+        margin-top: 5px;
+        font-size: 12px;
+        color: #dc2626;
+    }
+}
+
+.idh-empty-title {
+    font-weight: 600;
+    color: #374151;
+}
+
+.idh-empty-text {
+    margin-top: 3px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.idh-upload-area {
+    margin-top: 20px;
+    padding: 35px 20px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 14px;
+    background: #f8fafc;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .idh-upload-area:hover {
+        border-color: #94a3b8;
+        background: #f1f5f9;
+    }
+
+    .idh-upload-area.dragover {
+        border-color: #2563eb;
+        background: #eff6ff;
+        transform: scale(1.01);
+    }
+
+.idh-upload-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #e8f1ff;
+    color: #2563eb;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.idh-upload-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.idh-upload-subtitle {
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.idh-upload-hint {
+    margin-top: 12px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.idh-file-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.idh-preview-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+}
+
+.idh-preview-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+    background: #f8fafc;
+}
+
+.idh-preview-pdf {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.idh-preview-info {
+    padding: 12px;
+}
+
+.idh-preview-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1f2937;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.idh-preview-size {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.idh-preview-remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.65);
+    color: white;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .idh-preview-remove:hover {
+        background: rgba(220, 38, 38, 0.9);
+    }
+
+.idh-file-error {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #dc2626;
 }

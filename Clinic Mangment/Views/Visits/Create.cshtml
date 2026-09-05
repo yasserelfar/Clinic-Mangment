@@ -29,7 +29,7 @@
     </div>
 
     <div class="idh-form-card">
-        <form asp-action="Create" method="post">
+        <form asp-action="Create" method="post" id="idh-create-visit-form">
 
             <input type="hidden"
                    name="patientId"
@@ -38,7 +38,7 @@
             <div class="idh-field">
                 <label>Specialty</label>
 
-                <select id="specialtyId" name="specialtyId">
+                <select id="specialtyId" name="specialtyId" required>
                     <option value="">Select Specialty</option>
 
                     @foreach (var specialty in ViewBag.Specialties)
@@ -53,18 +53,23 @@
             <div class="idh-field">
                 <label>Doctor</label>
 
-                <select id="doctorId"
-                        name="doctorId"
-                        disabled>
+                <div class="idh-select-wrap" >
+                    <select id="doctorId"
+                            name="doctorId"
+                            disabled required>
 
-                    <option value="">
-                        Select Doctor
-                    </option>
+                        <option value="">
+                            Select Doctor
+                        </option>
 
-                </select>
+                    </select>
+                    <span id="doctorSpinner" class="idh-select-spinner" hidden></span>
+                </div>
             </div>
 
-            <button type="submit" class="idh-submit-btn">Create Visit</button>
+            <button type="submit" class="idh-submit-btn" id="idh-submit-visit-btn">
+                <span class="idh-btn-label">Create Visit</span>
+            </button>
 
         </form>
     </div>
@@ -73,51 +78,63 @@
 
 @section Scripts {
     <script>
+        (function () {
+            const specialtySelect = document.getElementById("specialtyId");
+            const doctorSelect = document.getElementById("doctorId");
+            const doctorSpinner = document.getElementById("doctorSpinner");
+            const form = document.getElementById("idh-create-visit-form");
+            const submitBtn = document.getElementById("idh-submit-visit-btn");
 
-        const specialtySelect =
-            document.getElementById("specialtyId");
+            specialtySelect.addEventListener("change", async function () {
+                const specialtyId = this.value;
 
-        const doctorSelect =
-            document.getElementById("doctorId");
+                doctorSelect.innerHTML = '<option value="">Select Doctor</option>';
+                doctorSelect.disabled = true;
+                doctorSelect.classList.remove("idh-fade-in");
 
+                if (!specialtyId) {
+                    doctorSpinner.hidden = true;
+                    return;
+                }
 
-        specialtySelect.addEventListener("change", async function() {
+                doctorSpinner.hidden = false;
 
-            const specialtyId = this.value;
+                try {
+                    const response = await fetch(`/Doctors/BySpecialty?specialtyId=${specialtyId}`);
+                    if (!response.ok) throw new Error("Request failed");
+                    const doctors = await response.json();
 
-            doctorSelect.innerHTML =
-                '<option value="">Select Doctor</option>';
+                    if (doctors.length === 0) {
+                        doctorSelect.innerHTML = '<option value="">No doctors available</option>';
+                    } else {
+                        doctors.forEach(doctor => {
+                            const option = document.createElement("option");
+                            option.value = doctor.id;
+                            option.textContent = doctor.name;
+                            doctorSelect.appendChild(option);
+                        });
+                    }
 
-            doctorSelect.disabled = true;
-
-
-            if (!specialtyId) {
-                return;
-            }
-
-
-            const response =
-                await fetch(`/Doctors/BySpecialty?specialtyId=${specialtyId}`);
-
-
-            const doctors = await response.json();
-
-
-            doctors.forEach(doctor => {
-
-                const option =
-                    document.createElement("option");
-
-                option.value = doctor.id;
-                option.textContent = doctor.name;
-
-                doctorSelect.appendChild(option);
+                    doctorSelect.disabled = false;
+                    // restart the fade-in animation
+                    void doctorSelect.offsetWidth;
+                    doctorSelect.classList.add("idh-fade-in");
+                } catch (err) {
+                    doctorSelect.innerHTML = '<option value="">Failed to load doctors</option>';
+                    if (window.IDHToast) {
+                        window.IDHToast.show("Couldn't load doctors for this specialty. Try again.", "error");
+                    }
+                } finally {
+                    doctorSpinner.hidden = true;
+                }
             });
 
-
-            doctorSelect.disabled = false;
-
-        });
-
+            form.addEventListener("submit", function () {
+                if (!doctorSelect.value) return; // let normal validation handle it
+                submitBtn.disabled = true;
+                submitBtn.classList.add("idh-btn-loading");
+                submitBtn.querySelector(".idh-btn-label").textContent = "Creating visit...";
+            });
+        })();
     </script>
 }
